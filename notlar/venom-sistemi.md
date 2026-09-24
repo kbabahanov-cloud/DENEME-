@@ -21,28 +21,35 @@
      - Video kullanıcıya sunulur. **Kullanıcı onay vermeden hiçbir şey yayınlanmaz.**
      - Onaydan sonra Telegram, TikTok ve Instagram'da yayınlanır.
 
-## Önerilen sıralama (her aşama bir öncekinin üzerine kurulur)
+## Kapsam kararı (24 Eylül 2026)
+
+Kullanıcı kapsamı daralttı:
+- **İptal (şimdilik):** mankenli video üretimi, Instagram, TikTok.
+- **Şimdiki hedef:** WhatsApp ve Telegram'da müşterilere cevap veren bir **ajan (bot)**.
+  - Müşteri bir ürünü sorunca stoğa bakar, var mı yok mu kontrol eder.
+  - Müşteriye normal bir insan gibi, net ve doğal bir dille cevap verir.
+  - Kullanıcı bota bir fotoğraf verince Telegram kanalında paylaşım yapar (onaydan sonra).
+
+## Güncel sıralama
 
 | Sıra | Aşama | Neden bu sırada |
 |---|---|---|
-| 1 | Stok ve ürün veritabanı | Her şeyin temeli. Ürün kodu, fotoğraf, beden, renk, fiyat ve stok burada tutulur. Diğer bütün parçalar bu veriyi kullanır. |
-| 2 | Telegram otomasyonu | Ana vitrin (≈14 bin takipçi). Bağlanması en kolay ve en ucuz kanal. İlk hızlı kazanç. |
-| 3 | Fotoğraf → mankenli video akışı (onaylı) | Ürün veritabanı hazır olunca her yeni model otomatik içeriğe dönüşür. |
-| 4 | Instagram ve TikTok yayını | Bu kanallar için işletme hesabı ve platform onayı gerekir. Onay süreci zaman alır, erken başvurulmalı. |
-| 5 | WhatsApp Business bağlantısı | Siparişlerin çoğu burada. Müşteriye stok ve fiyat bilgisini otomatik verebilmek için 1. aşamadaki verilere ihtiyaç var. |
-| 6 | Ofiste sesli asistan | Diğer sistemleri yöneten "ses arayüzü". Arkasında stok, kanallar ve içerik akışı hazır olunca gerçekten işe yarar. |
+| 1 | Stok listesi (ajanın bakacağı kaynak) | Ajan stoğu kontrol edebilmek için tek ve güncel bir listeye ihtiyaç duyar. |
+| 2 | Telegram ajanı (önce sadece kullanıcıyla test) | Kurulumu en kolay kanal. Cevap tarzı burada gerçek müşteriye çıkmadan ayarlanır. |
+| 3 | Fotoğraftan Telegram kanalı paylaşımı (onaylı) | Aynı bot üzerinden, ek maliyet olmadan. |
+| 4 | WhatsApp ajanı | Meta'nın WhatsApp Business Platform kurulumu ve onayı gerekir. Telegram'da olgunlaşan ajan buraya taşınır. |
+| 5 | Ofiste sesli asistan | Sonraya bırakıldı. |
 
-## Açık sorular (kullanıcıya sorulacak)
+## Tasarım ilkeleri (öneri, kullanıcı onayı bekliyor)
 
-- "Venom" ve "Hermes" adları doğru mu anlaşıldı?
-- Stoklar şu an nasıl tutuluyor (defter, Excel, bir program)?
-- Kaç model / ürün var? Kaç fabrika ile çalışılıyor?
-- Fatura ve muhasebe için hangi program kullanılıyor (e-fatura)?
-- Veriyi sisteme kim girecek (kullanıcı, çalışan, depo sorumlusu)?
-- Aylık bütçe sınırı var mı?
+- Ajan stok ve ürün bilgisi verir. Sipariş kesinleştirme, ödeme, indirim ve pazarlık kullanıcıya devredilir.
+- Emin olmadığı her durumda uydurmaz, "kontrol edip dönüyorum" der ve kullanıcıya haber verir.
+- Müşterinin dilinde cevap verir (İngilizce, Fransızca, Rusça, Türkçe).
+- Kanal paylaşımları her zaman kullanıcı onayından sonra yapılır.
 
 ## Durum
 
 - [x] Katalog sitesi yayında: https://kbabahanov-cloud.github.io/VOLONTE/
 - [x] WhatsApp (+90 536 239 00 91) ve Telegram (t.me/Volonteroseoffical) siteye bağlandı.
-- [ ] 1. aşama: Stok sistemi (sorular cevaplanınca başlanacak)
+- [x] Kapsam daraltıldı: video, Instagram, TikTok şimdilik iptal.
+- [ ] 1. aşama: Stok listesi (stoğun şu an nasıl tutulduğu cevabı bekleniyor)
