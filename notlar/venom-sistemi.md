@@ -53,3 +53,41 @@ Kullanıcı kapsamı daralttı:
 - [x] WhatsApp (+90 536 239 00 91) ve Telegram (t.me/Volonteroseoffical) siteye bağlandı.
 - [x] Kapsam daraltıldı: video, Instagram, TikTok şimdilik iptal.
 - [ ] 1. aşama: Stok listesi (stoğun şu an nasıl tutulduğu cevabı bekleniyor)
+
+## Ortak sözlük
+
+| Kelime | Anlamı |
+|---|---|
+| Ajan | Müşteriye sizin adınıza cevap veren yapay zekâ programı |
+| Stok listesi | Hangi üründen, hangi renk ve bedende kaç adet olduğunu gösteren tek liste |
+| Test modu | Ajan sadece sizinle konuşur, gerçek müşteriye açılmaz |
+| Devretme | Ajanın konuşmayı size bırakması (sipariş, ödeme, pazarlık, emin olmadığı durumlar) |
+| Onay | Siz "tamam" demeden hiçbir şeyin yayınlanmaması veya gönderilmemesi |
+
+## Soru listesi (cevaplar geldikçe doldurulacak)
+
+### A. Stok
+1. Stok şu an nasıl tutuluyor? (defter / Excel / program adı / akılda) — Cevap:
+2. Şu an kaç model var? Her modelde kaç renk ve beden var? — Cevap:
+3. Stok nerede duruyor: mağaza, depo, fabrika? Kaç fabrikayla çalışılıyor? — Cevap:
+4. Stoğu kim güncelleyecek ve ne sıklıkla (her satışta / günde bir)? — Cevap:
+5. Ürün kodu sistemi var mı? Örnek bir kod: — Cevap:
+
+### B. Müşteriler
+6. Müşterilerin en sık sorduğu 5 soru nedir? (gerçek mesaj örnekleri çok faydalı) — Cevap:
+7. Müşteriler hangi dillerde yazıyor? — Cevap:
+8. Ajan fiyat söyleyebilir mi? Fiyat herkese aynı mı, müşteriye göre mi değişiyor? — Cevap:
+9. Ajan minimum sipariş, seri, kargo ve ödeme yollarını anlatabilir mi? — Cevap:
+
+### C. Kurallar
+10. Ajanın asla yapmaması gerekenler neler? — Cevap:
+11. Ajan cevap veremezse size nasıl haber versin? — Cevap:
+12. Ajan hangi saatlerde çalışsın (7/24 mü)? — Cevap:
+
+### D. Hesaplar
+13. Telegram'da müşteriler size nereden yazıyor (kişisel hesap / kanal yorumları / grup)? Telegram Premium var mı? — Cevap:
+14. WhatsApp normal uygulama mı, WhatsApp Business uygulaması mı? — Cevap:
+
+### E. Bütçe ve ekip
+15. Bu sistem için aylık ne kadar harcamayı düşünürsünüz? — Cevap:
+16. Ekipte bu işe yardım edebilecek biri var mı? — Cevap:
