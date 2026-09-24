@@ -1,0 +1,471 @@
+<title>VOLONTE Stok</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+  :root {
+    --bg: #f4f3ef;
+    --panel: #ffffff;
+    --ink: #17191c;
+    --muted: #666b72;
+    --line: #e2dfd8;
+    --soft: #efece6;
+    --accent: #17191c;
+    --on-accent: #ffffff;
+    --in: #1f7a55;
+    --in-soft: #e3f2ea;
+    --out: #b2432b;
+    --out-soft: #f8e6e1;
+    --move: #2f5f9e;
+    --move-soft: #e4ecf7;
+    --warn: #9a6a00;
+    --warn-soft: #fbf0d6;
+    --sans: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+    --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --bg: #121416; --panel: #1b1e21; --ink: #eceef0; --muted: #9aa1a8; --line: #2c3035; --soft: #23272b;
+      --accent: #eceef0; --on-accent: #121416;
+      --in: #5cc896; --in-soft: #16392a; --out: #f08a72; --out-soft: #45221b;
+      --move: #86b0ea; --move-soft: #1c2b40; --warn: #e4b54a; --warn-soft: #3a2f12;
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --bg: #121416; --panel: #1b1e21; --ink: #eceef0; --muted: #9aa1a8; --line: #2c3035; --soft: #23272b;
+    --accent: #eceef0; --on-accent: #121416;
+    --in: #5cc896; --in-soft: #16392a; --out: #f08a72; --out-soft: #45221b;
+    --move: #86b0ea; --move-soft: #1c2b40; --warn: #e4b54a; --warn-soft: #3a2f12;
+  }
+
+  body { background: var(--bg); color: var(--ink); font-family: var(--sans); font-size: 16px; line-height: 1.45; }
+  .app { max-width: 760px; margin: 0 auto; padding-inline: 16px; padding-block: 16px 80px; display: grid; gap: 16px; }
+  h1, h2, h3 { margin: 0; line-height: 1.2; text-wrap: balance; }
+  button, input, select, textarea { font: inherit; color: inherit; }
+  .mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+
+  header.top { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .brand { display: flex; align-items: baseline; gap: 10px; }
+  .brand h1 { font-size: 22px; letter-spacing: .14em; font-weight: 700; }
+  .brand span { font-size: 13px; color: var(--muted); letter-spacing: .06em; text-transform: uppercase; }
+  .status { font-size: 12px; padding: 4px 10px; border-radius: 999px; background: var(--soft); color: var(--muted); white-space: nowrap; }
+  .status.ok { background: var(--in-soft); color: var(--in); }
+  .status.bad { background: var(--out-soft); color: var(--out); }
+
+  nav.tabs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; background: var(--soft); padding: 4px; border-radius: 12px; position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; }
+  nav.tabs button { border: 0; background: transparent; padding: 10px 4px; border-radius: 9px; font-weight: 600; font-size: 14px; color: var(--muted); cursor: pointer; }
+  nav.tabs button[aria-selected="true"] { background: var(--panel); color: var(--ink); box-shadow: 0 1px 2px rgba(0,0,0,.08); }
+
+  .panel { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 16px; display: grid; gap: 14px; }
+  label { display: grid; gap: 6px; font-size: 13px; font-weight: 600; color: var(--muted); }
+  input, select, textarea { width: 100%; box-sizing: border-box; padding: 12px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--bg); font-size: 16px; }
+  input:focus-visible, select:focus-visible, textarea:focus-visible, button:focus-visible { outline: 2px solid var(--move); outline-offset: 2px; }
+  input.big { font-family: var(--mono); font-size: 26px; padding: 14px; letter-spacing: .04em; }
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .row3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+
+  .btn { border: 1px solid var(--accent); background: var(--accent); color: var(--on-accent); padding: 13px 16px; border-radius: 10px; font-weight: 600; cursor: pointer; }
+  .btn.ghost { background: transparent; color: var(--ink); border-color: var(--line); }
+  .btn.danger { background: transparent; color: var(--out); border-color: var(--out); }
+  .btn:disabled { opacity: .45; cursor: not-allowed; }
+  .actions { display: flex; flex-wrap: wrap; gap: 8px; }
+
+  .seg { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+  .seg input { position: absolute; opacity: 0; pointer-events: none; }
+  .seg label { position: relative; border: 1px solid var(--line); border-radius: 10px; padding: 10px 4px; text-align: center; color: var(--ink); font-size: 14px; cursor: pointer; background: var(--bg); }
+  .seg input:checked + span { font-weight: 700; }
+  .seg label:has(input:checked) { border-color: var(--c); background: var(--cs); color: var(--c); }
+  .seg label:has(input:focus-visible) { outline: 2px solid var(--move); outline-offset: 2px; }
+
+  .card-head { display: flex; justify-content: space-between; align-items: start; gap: 12px; flex-wrap: wrap; }
+  .code { font-family: var(--mono); font-size: 28px; font-weight: 600; }
+  .price { font-family: var(--mono); font-size: 22px; font-weight: 600; }
+  .sub { color: var(--muted); font-size: 14px; }
+
+  .tablewrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 15px; }
+  th, td { padding: 9px 8px; text-align: left; border-bottom: 1px solid var(--line); }
+  th { font-size: 12px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: .05em; }
+  td.n, th.n { text-align: right; font-family: var(--mono); font-variant-numeric: tabular-nums; }
+  tr.total td { font-weight: 700; border-bottom: 0; }
+
+  .pill { display: inline-block; font-size: 12px; font-weight: 600; padding: 2px 8px; border-radius: 999px; }
+  .pill.zero { background: var(--out-soft); color: var(--out); }
+  .pill.low { background: var(--warn-soft); color: var(--warn); }
+
+  .list { display: grid; gap: 0; }
+  .item { display: grid; grid-template-columns: auto 1fr auto; gap: 12px; align-items: center; padding: 12px 4px; border-bottom: 1px solid var(--line); cursor: pointer; background: none; border-left: 0; border-right: 0; border-top: 0; text-align: left; width: 100%; }
+  .item:hover { background: var(--soft); }
+  .item .k { font-family: var(--mono); font-weight: 600; min-width: 64px; }
+  .item .t { font-family: var(--mono); font-variant-numeric: tabular-nums; text-align: right; }
+  .item .t small { display: block; color: var(--muted); font-size: 11px; font-family: var(--sans); }
+
+  .log { display: grid; }
+  .log div { display: grid; grid-template-columns: 52px 1fr auto; gap: 10px; padding: 10px 2px; border-bottom: 1px solid var(--line); font-size: 15px; align-items: baseline; }
+  .tag { font-size: 12px; font-weight: 700; padding: 2px 8px; border-radius: 6px; }
+  .tag.giris { background: var(--in-soft); color: var(--in); }
+  .tag.satis { background: var(--out-soft); color: var(--out); }
+  .tag.transfer { background: var(--move-soft); color: var(--move); }
+  .tag.sayim { background: var(--warn-soft); color: var(--warn); }
+
+  .empty { color: var(--muted); text-align: center; padding: 24px 8px; }
+  .msg { padding: 10px 12px; border-radius: 10px; font-size: 14px; }
+  .msg.err { background: var(--out-soft); color: var(--out); }
+  .msg.ok { background: var(--in-soft); color: var(--in); }
+  .msg.info { background: var(--soft); color: var(--muted); }
+
+  #toast { position: fixed; left: 50%; bottom: calc(20px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); background: var(--accent); color: var(--on-accent); padding: 12px 18px; border-radius: 12px; font-size: 15px; max-width: calc(100% - 32px); z-index: 20; box-shadow: 0 6px 24px rgba(0,0,0,.2); }
+
+  @media (max-width: 520px) {
+    .row3 { grid-template-columns: 1fr 1fr; }
+    .code { font-size: 24px; }
+  }
+</style>
+
+<div class="app">
+  <header class="top">
+    <div class="brand"><h1>VOLONTE</h1><span>Stok</span></div>
+    <span class="status" id="durum">Bağlanıyor…</span>
+  </header>
+
+  <nav class="tabs" role="tablist">
+    <button role="tab" id="t-ara" aria-selected="true" data-tab="ara">Ara</button>
+    <button role="tab" id="t-hareket" aria-selected="false" data-tab="hareket">Hareket</button>
+    <button role="tab" id="t-urunler" aria-selected="false" data-tab="urunler">Ürünler</button>
+    <button role="tab" id="t-gecmis" aria-selected="false" data-tab="gecmis">Geçmiş</button>
+  </nav>
+
+  <!-- ARA -->
+  <section id="p-ara" class="panel" role="tabpanel">
+    <label for="ara-kod">Stok kodu
+      <input id="ara-kod" class="big" inputmode="text" autocomplete="off" placeholder="3394" list="kodlar">
+    </label>
+    <div id="ara-sonuc"></div>
+  </section>
+
+  <!-- HAREKET -->
+  <section id="p-hareket" class="panel" role="tabpanel" hidden>
+    <h2 style="font-size:18px">Stok hareketi</h2>
+    <form id="f-hareket" class="panel" style="padding:0;border:0" autocomplete="off">
+      <div class="seg" role="radiogroup" aria-label="Hareket türü">
+        <label style="--c:var(--in);--cs:var(--in-soft)"><input type="radio" name="tip" value="giris" checked><span>Giriş</span></label>
+        <label style="--c:var(--out);--cs:var(--out-soft)"><input type="radio" name="tip" value="satis"><span>Satış</span></label>
+        <label style="--c:var(--move);--cs:var(--move-soft)"><input type="radio" name="tip" value="transfer"><span>Transfer</span></label>
+        <label style="--c:var(--warn);--cs:var(--warn-soft)"><input type="radio" name="tip" value="sayim"><span>Sayım</span></label>
+      </div>
+      <p class="sub" id="tip-aciklama"></p>
+      <div class="row">
+        <label for="h-kod">Stok kodu<input id="h-kod" name="kod" class="mono" list="kodlar" required></label>
+        <label for="h-renk">Renk<select id="h-renk" name="renk" required><option value="">Önce kodu yazın</option></select></label>
+      </div>
+      <div class="row">
+        <label for="h-yer" id="yer-kutu">Yer<select id="h-yer" name="yer"><option value="magaza">Mağaza</option><option value="fabrika">Fabrika</option></select></label>
+        <label for="h-miktar"><span id="miktar-etiket">Miktar</span><input id="h-miktar" name="miktar" class="mono" type="number" inputmode="numeric" min="0" step="1" required></label>
+      </div>
+      <label for="h-not">Not (isteğe bağlı)<input id="h-not" name="not" placeholder="Örn. müşteri adı, sevkiyat no"></label>
+      <div id="h-onizleme"></div>
+      <button class="btn" type="submit" id="h-kaydet">Kaydet</button>
+    </form>
+  </section>
+
+  <!-- ÜRÜNLER -->
+  <section id="p-urunler" class="panel" role="tabpanel" hidden>
+    <div class="card-head">
+      <h2 style="font-size:18px">Ürünler <span class="sub" id="urun-sayisi"></span></h2>
+      <button class="btn" type="button" id="yeni-ac">+ Yeni ürün</button>
+    </div>
+    <form id="f-yeni" class="panel" hidden autocomplete="off">
+      <h3 style="font-size:16px">Yeni ürün</h3>
+      <div class="row">
+        <label for="y-kod">Stok kodu<input id="y-kod" class="mono" required placeholder="3394"></label>
+        <label for="y-fiyat">Fiyat (<span class="pb">$</span>)<input id="y-fiyat" class="mono" type="number" inputmode="decimal" min="0" step="0.01" placeholder="0"></label>
+      </div>
+      <label for="y-ad">Model adı<input id="y-ad" placeholder="Örn. Uzun abiye elbise"></label>
+      <label for="y-renkler">Renkler (virgülle ayırın)<input id="y-renkler" required placeholder="Siyah, Bordo, Bej"></label>
+      <p class="sub">Başlangıç stoklarını kaydettikten sonra "Hareket → Sayım" ile girebilirsiniz.</p>
+      <div id="y-mesaj"></div>
+      <div class="actions"><button class="btn" type="submit">Ürünü kaydet</button><button class="btn ghost" type="button" id="yeni-kapat">Vazgeç</button></div>
+    </form>
+    <div class="row">
+      <label for="liste-ara">Listede ara<input id="liste-ara" placeholder="Kod veya ad"></label>
+      <label for="liste-filtre">Göster<select id="liste-filtre"><option value="hepsi">Hepsi</option><option value="tukenen">Tükenenler</option><option value="az">Azalanlar</option></select></label>
+    </div>
+    <div class="list" id="liste"></div>
+  </section>
+
+  <!-- GEÇMİŞ -->
+  <section id="p-gecmis" class="panel" role="tabpanel" hidden>
+    <div class="card-head">
+      <h2 style="font-size:18px">Günün hareketleri</h2>
+      <input id="g-tarih" type="date" style="width:auto">
+    </div>
+    <div id="g-ozet" class="sub"></div>
+    <div class="log" id="g-liste"></div>
+  </section>
+
+  <datalist id="kodlar"></datalist>
+</div>
+<div id="toast" hidden></div>
+
+<script>
+(function () {
+  const $ = id => document.getElementById(id);
+  const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const num = n => Number(n || 0).toLocaleString("tr-TR");
+  const para = n => AYAR.paraBirimi + Number(n || 0).toLocaleString("tr-TR", { minimumFractionDigits: 0, maximumFractionDigits: 2 });
+  const bugun = () => { const d = new Date(); return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0"); };
+  const saat = () => new Date().toLocaleTimeString("tr-TR", { hour: "2-digit", minute: "2-digit" });
+  const KOD_RE = /^[A-Za-z0-9_-]{1,40}$/;
+  const TIP = {
+    giris: { ad: "Giriş", aciklama: "Mal geldi veya üretildi. Seçilen yerin stoğu artar." },
+    satis: { ad: "Satış", aciklama: "Mal satıldı veya çıktı. Seçilen yerin stoğu azalır." },
+    transfer: { ad: "Transfer", aciklama: "Fabrikadan mağazaya mal geldi. Fabrika azalır, mağaza artar." },
+    sayim: { ad: "Sayım", aciklama: "Saydığınız doğru sayıyı yazın. Stok bu sayıya eşitlenir." }
+  };
+
+  let db = null;
+  let AYAR = { paraBirimi: "$", birim: "adet", azEsik: 3 };
+  const urunler = new Map();
+
+  // ---------- Yardımcılar ----------
+  let toastTimer;
+  function toast(t) { const el = $("toast"); el.textContent = t; el.hidden = false; clearTimeout(toastTimer); toastTimer = setTimeout(() => { el.hidden = true; }, 3500); }
+  function durum(t, cls) { const el = $("durum"); el.textContent = t; el.className = "status " + (cls || ""); }
+  function renkler(u) { return Object.keys(u?.renkler || {}).sort((a, b) => a.localeCompare(b, "tr")); }
+  function stok(u, r) { const s = u?.renkler?.[r] || {}; return { magaza: Number(s.magaza || 0), fabrika: Number(s.fabrika || 0) }; }
+  function toplam(u) { return renkler(u).reduce((t, r) => { const s = stok(u, r); t.magaza += s.magaza; t.fabrika += s.fabrika; return t; }, { magaza: 0, fabrika: 0 }); }
+  function hata(e) { return e && e.code === "quota_exceeded" ? "Veritabanı dolu. Eski kayıtların silinmesi gerekiyor, Claude'a haber verin." : "Kaydedilemedi (" + (e?.code || "hata") + "). İnternet bağlantınızı kontrol edip tekrar deneyin."; }
+
+  // Aynı anda tek yazma: yazmaları sıraya koy
+  let kuyruk = Promise.resolve();
+  const sirayla = fn => (kuyruk = kuyruk.then(fn, fn));
+
+  // ---------- Sekmeler ----------
+  document.querySelectorAll("nav.tabs button").forEach(b => b.addEventListener("click", () => sekme(b.dataset.tab)));
+  function sekme(ad) {
+    document.querySelectorAll("nav.tabs button").forEach(b => b.setAttribute("aria-selected", String(b.dataset.tab === ad)));
+    ["ara", "hareket", "urunler", "gecmis"].forEach(p => { $("p-" + p).hidden = p !== ad; });
+    if (ad === "gecmis") gecmisYukle();
+  }
+
+  // ---------- Ara ----------
+  $("ara-kod").addEventListener("input", araCiz);
+  function araCiz() {
+    const kod = $("ara-kod").value.trim();
+    const box = $("ara-sonuc");
+    if (!kod) { box.innerHTML = urunler.size ? '<p class="empty">Stok kodunu yazın, stok ve fiyat burada görünür.</p>' : '<p class="empty">Henüz ürün yok. "Ürünler" sekmesinden ilk ürünü ekleyin.</p>'; return; }
+    const u = urunler.get(kod);
+    if (!u) { box.innerHTML = '<p class="msg info">Bu kodla bir ürün yok: <b class="mono">' + esc(kod) + "</b></p>"; return; }
+    const t = toplam(u);
+    const satirlar = renkler(u).map(r => {
+      const s = stok(u, r), top = s.magaza + s.fabrika;
+      const pill = top === 0 ? ' <span class="pill zero">Tükendi</span>' : (top <= AYAR.azEsik ? ' <span class="pill low">Az</span>' : "");
+      return "<tr><td>" + esc(r) + pill + '</td><td class="n">' + num(s.magaza) + '</td><td class="n">' + num(s.fabrika) + '</td><td class="n">' + num(top) + "</td></tr>";
+    }).join("");
+    box.innerHTML =
+      '<div class="panel" style="padding:0;border:0">' +
+        '<div class="card-head"><div><div class="code">' + esc(u.kod) + '</div><div class="sub">' + esc(u.ad || "Model adı yok") + '</div></div><div class="price">' + para(u.fiyat) + "</div></div>" +
+        '<div class="tablewrap"><table><thead><tr><th>Renk</th><th class="n">Mağaza</th><th class="n">Fabrika</th><th class="n">Toplam</th></tr></thead><tbody>' + satirlar +
+        '<tr class="total"><td>Toplam</td><td class="n">' + num(t.magaza) + '</td><td class="n">' + num(t.fabrika) + '</td><td class="n">' + num(t.magaza + t.fabrika) + "</td></tr></tbody></table></div>" +
+        '<p class="sub">Birim: ' + esc(AYAR.birim) + (u.guncelleme ? " · Son değişiklik: " + esc(new Date(u.guncelleme).toLocaleString("tr-TR")) : "") + "</p>" +
+        '<div class="actions"><button class="btn" type="button" data-git="' + esc(u.kod) + '">Hareket gir</button><button class="btn ghost" type="button" data-duzenle="' + esc(u.kod) + '">Düzenle</button></div>' +
+        '<div id="duzenle-kutu"></div>' +
+      "</div>";
+    box.querySelector("[data-git]").addEventListener("click", () => { $("h-kod").value = u.kod; renkSecenekleri(); sekme("hareket"); $("h-renk").focus(); });
+    box.querySelector("[data-duzenle]").addEventListener("click", () => duzenleAc(u.kod));
+  }
+
+  // ---------- Düzenle ----------
+  function duzenleAc(kod) {
+    const u = urunler.get(kod); if (!u) return;
+    const k = $("duzenle-kutu");
+    k.innerHTML =
+      '<form class="panel" id="f-duzenle" autocomplete="off">' +
+        '<h3 style="font-size:16px">Ürünü düzenle</h3>' +
+        '<div class="row"><label for="d-ad">Model adı<input id="d-ad" value="' + esc(u.ad || "") + '"></label>' +
+        '<label for="d-fiyat">Fiyat (' + esc(AYAR.paraBirimi) + ')<input id="d-fiyat" class="mono" type="number" inputmode="decimal" min="0" step="0.01" value="' + esc(u.fiyat ?? "") + '"></label></div>' +
+        '<label for="d-renk">Yeni renk ekle (virgülle birden fazla)<input id="d-renk" placeholder="Örn. Yeşil"></label>' +
+        '<div id="d-mesaj"></div>' +
+        '<div class="actions"><button class="btn" type="submit">Kaydet</button><button class="btn ghost" type="button" id="d-kapat">Kapat</button><button class="btn danger" type="button" id="d-sil">Ürünü sil</button></div>' +
+      "</form>";
+    $("d-kapat").onclick = () => { k.innerHTML = ""; };
+    let silOnay = false;
+    $("d-sil").onclick = () => {
+      if (!silOnay) { silOnay = true; $("d-sil").textContent = "Emin misiniz? Tekrar basın"; return; }
+      sirayla(async () => {
+        try { await db.doc("urunler/" + kod).delete(); toast(kod + " silindi"); $("ara-kod").value = ""; araCiz(); }
+        catch (e) { $("d-mesaj").innerHTML = '<p class="msg err">' + esc(hata(e)) + "</p>"; }
+      });
+    };
+    $("f-duzenle").onsubmit = ev => {
+      ev.preventDefault();
+      const yeniRenkler = $("d-renk").value.split(",").map(s => s.trim()).filter(Boolean);
+      const patch = { ad: $("d-ad").value.trim(), fiyat: Number($("d-fiyat").value || 0), guncelleme: new Date().toISOString() };
+      if (yeniRenkler.length) { patch.renkler = {}; yeniRenkler.forEach(r => { if (!u.renkler?.[r]) patch.renkler[r] = { magaza: 0, fabrika: 0 }; }); }
+      sirayla(async () => {
+        try { await db.doc("urunler/" + kod).update(patch); toast(kod + " güncellendi"); }
+        catch (e) { $("d-mesaj").innerHTML = '<p class="msg err">' + esc(hata(e)) + "</p>"; }
+      });
+    };
+  }
+
+  // ---------- Hareket ----------
+  const form = $("f-hareket");
+  form.addEventListener("change", hareketArayuz);
+  $("h-kod").addEventListener("input", () => { renkSecenekleri(); onizle(); });
+  ["h-renk", "h-yer", "h-miktar"].forEach(id => $(id).addEventListener("input", onizle));
+  function secilenTip() { return form.querySelector('input[name="tip"]:checked').value; }
+  function hareketArayuz() {
+    const tip = secilenTip();
+    $("tip-aciklama").textContent = TIP[tip].aciklama;
+    $("yer-kutu").hidden = tip === "transfer";
+    $("miktar-etiket").textContent = tip === "sayim" ? "Doğru sayı" : "Miktar (" + AYAR.birim + ")";
+    onizle();
+  }
+  function renkSecenekleri() {
+    const u = urunler.get($("h-kod").value.trim());
+    const sel = $("h-renk"), onceki = sel.value;
+    if (!u) { sel.innerHTML = '<option value="">Önce geçerli bir kod yazın</option>'; return; }
+    sel.innerHTML = '<option value="">Renk seçin</option>' + renkler(u).map(r => '<option value="' + esc(r) + '">' + esc(r) + "</option>").join("");
+    if (u.renkler?.[onceki]) sel.value = onceki;
+  }
+  function hesapla() {
+    const tip = secilenTip(), kod = $("h-kod").value.trim(), renk = $("h-renk").value;
+    const yer = $("h-yer").value, miktarStr = $("h-miktar").value;
+    const u = urunler.get(kod);
+    if (!u) return { hata: kod ? "Bu kodla ürün yok. Önce Ürünler sekmesinden ekleyin." : null };
+    if (!renk) return { hata: null };
+    if (miktarStr === "") return { hata: null };
+    const m = Number(miktarStr);
+    if (!Number.isInteger(m) || m < 0 || (tip !== "sayim" && m === 0)) return { hata: "Miktar pozitif bir tam sayı olmalı." };
+    const eski = stok(u, renk), yeni = { ...eski };
+    if (tip === "giris") yeni[yer] += m;
+    if (tip === "satis") yeni[yer] -= m;
+    if (tip === "transfer") { yeni.fabrika -= m; yeni.magaza += m; }
+    if (tip === "sayim") yeni[yer] = m;
+    if (yeni.magaza < 0 || yeni.fabrika < 0) {
+      const kaynak = tip === "transfer" ? "fabrikada" : (yer === "magaza" ? "mağazada" : "fabrikada");
+      const var_ = tip === "transfer" ? eski.fabrika : eski[yer];
+      return { hata: "Stok yetmiyor: " + kaynak + " sadece " + num(var_) + " " + AYAR.birim + " var. Sayı yanlışsa önce \"Sayım\" ile düzeltin." };
+    }
+    return { u, kod, renk, tip, yer: tip === "transfer" ? "fabrika→magaza" : yer, miktar: m, eski, yeni };
+  }
+  function onizle() {
+    const h = hesapla(), box = $("h-onizleme");
+    $("h-kaydet").disabled = !h.u;
+    if (h.hata) { box.innerHTML = '<p class="msg err">' + esc(h.hata) + "</p>"; return; }
+    if (!h.u) { box.innerHTML = ""; return; }
+    box.innerHTML = '<p class="msg info"><b>' + esc(h.kod) + " · " + esc(h.renk) + "</b><br>Mağaza: " + num(h.eski.magaza) + " → <b>" + num(h.yeni.magaza) + "</b> &nbsp;·&nbsp; Fabrika: " + num(h.eski.fabrika) + " → <b>" + num(h.yeni.fabrika) + "</b></p>";
+  }
+  form.addEventListener("submit", ev => {
+    ev.preventDefault();
+    const h = hesapla();
+    if (!h.u || !db) return;
+    $("h-kaydet").disabled = true;
+    const kayit = { saat: saat(), zaman: new Date().toISOString(), kod: h.kod, renk: h.renk, tip: h.tip, yer: h.yer, miktar: h.miktar, once: h.eski, sonra: h.yeni, not: $("h-not").value.trim() };
+    sirayla(async () => {
+      try {
+        await db.doc("urunler/" + h.kod).update({ renkler: { [h.renk]: h.yeni }, guncelleme: kayit.zaman });
+        const gunRef = db.doc("gunluk/" + bugun());
+        const g = await gunRef.get();
+        const liste = g.exists ? (g.data().kayitlar || []).slice() : [];
+        liste.push(kayit);
+        await gunRef.set({ tarih: bugun(), kayitlar: liste });
+        toast("Kaydedildi: " + h.kod + " " + h.renk + " · Mağaza " + num(h.yeni.magaza) + ", Fabrika " + num(h.yeni.fabrika));
+        $("h-miktar").value = ""; $("h-not").value = "";
+        onizle();
+      } catch (e) {
+        $("h-onizleme").innerHTML = '<p class="msg err">' + esc(hata(e)) + "</p>";
+        $("h-kaydet").disabled = false;
+      }
+    });
+  });
+
+  // ---------- Ürünler ----------
+  $("yeni-ac").onclick = () => { $("f-yeni").hidden = false; $("y-kod").focus(); };
+  $("yeni-kapat").onclick = () => { $("f-yeni").hidden = true; $("y-mesaj").innerHTML = ""; };
+  $("f-yeni").addEventListener("submit", ev => {
+    ev.preventDefault();
+    const kod = $("y-kod").value.trim();
+    const mesaj = t => { $("y-mesaj").innerHTML = '<p class="msg err">' + esc(t) + "</p>"; };
+    if (!KOD_RE.test(kod)) return mesaj("Stok kodu sadece harf, rakam, - ve _ içerebilir. Boşluk olmamalı.");
+    if (urunler.has(kod)) return mesaj("Bu kod zaten kayıtlı: " + kod);
+    const rs = [...new Set($("y-renkler").value.split(",").map(s => s.trim()).filter(Boolean))];
+    if (!rs.length) return mesaj("En az bir renk yazın.");
+    const renkObj = {}; rs.forEach(r => { renkObj[r] = { magaza: 0, fabrika: 0 }; });
+    const simdi = new Date().toISOString();
+    sirayla(async () => {
+      try {
+        await db.doc("urunler/" + kod).set({ kod, ad: $("y-ad").value.trim(), fiyat: Number($("y-fiyat").value || 0), renkler: renkObj, olusturma: simdi, guncelleme: simdi });
+        toast(kod + " eklendi. Şimdi stok sayısını girebilirsiniz.");
+        $("f-yeni").reset(); $("f-yeni").hidden = true; $("y-mesaj").innerHTML = "";
+        $("h-kod").value = kod; form.querySelector('input[value="sayim"]').checked = true;
+        setTimeout(() => { renkSecenekleri(); hareketArayuz(); sekme("hareket"); }, 300);
+      } catch (e) { mesaj(hata(e)); }
+    });
+  });
+  ["liste-ara", "liste-filtre"].forEach(id => $(id).addEventListener("input", listeCiz));
+  function listeCiz() {
+    const q = $("liste-ara").value.trim().toLocaleLowerCase("tr"), f = $("liste-filtre").value;
+    let arr = [...urunler.values()].sort((a, b) => String(a.kod).localeCompare(String(b.kod), "tr", { numeric: true }));
+    $("urun-sayisi").textContent = "· " + num(arr.length) + " model";
+    if (q) arr = arr.filter(u => String(u.kod).toLocaleLowerCase("tr").includes(q) || String(u.ad || "").toLocaleLowerCase("tr").includes(q));
+    if (f === "tukenen") arr = arr.filter(u => renkler(u).some(r => { const s = stok(u, r); return s.magaza + s.fabrika === 0; }));
+    if (f === "az") arr = arr.filter(u => renkler(u).some(r => { const s = stok(u, r), t = s.magaza + s.fabrika; return t > 0 && t <= AYAR.azEsik; }));
+    const box = $("liste");
+    if (!arr.length) { box.innerHTML = '<p class="empty">' + (urunler.size ? "Bu filtreye uyan ürün yok." : "Henüz ürün yok. \"+ Yeni ürün\" ile başlayın.") + "</p>"; return; }
+    box.innerHTML = arr.map(u => {
+      const t = toplam(u);
+      const bitmis = renkler(u).filter(r => { const s = stok(u, r); return s.magaza + s.fabrika === 0; }).length;
+      return '<button type="button" class="item" data-kod="' + esc(u.kod) + '"><span class="k">' + esc(u.kod) + '</span><span>' + esc(u.ad || "—") +
+        '<br><span class="sub">' + renkler(u).length + " renk" + (bitmis ? ' · <span class="pill zero">' + bitmis + " renk tükendi</span>" : "") + " · " + para(u.fiyat) + "</span></span>" +
+        '<span class="t">' + num(t.magaza) + "<small>mağaza</small></span></button>";
+    }).join("");
+    box.querySelectorAll("[data-kod]").forEach(b => b.addEventListener("click", () => { $("ara-kod").value = b.dataset.kod; araCiz(); sekme("ara"); }));
+  }
+
+  // ---------- Geçmiş ----------
+  $("g-tarih").value = bugun();
+  $("g-tarih").addEventListener("change", gecmisYukle);
+  async function gecmisYukle() {
+    const box = $("g-liste");
+    if (!db) { box.innerHTML = '<p class="empty">Bağlantı yok.</p>'; return; }
+    box.innerHTML = '<p class="empty">Yükleniyor…</p>';
+    try {
+      const g = await db.doc("gunluk/" + $("g-tarih").value).get();
+      const k = g.exists ? (g.data().kayitlar || []) : [];
+      const say = t => k.filter(x => x.tip === t).reduce((s, x) => s + Number(x.miktar || 0), 0);
+      $("g-ozet").textContent = k.length ? (k.length + " hareket · Giriş " + num(say("giris")) + " · Satış " + num(say("satis")) + " · Transfer " + num(say("transfer")) + " " + AYAR.birim) : "";
+      box.innerHTML = k.length ? k.slice().reverse().map(x =>
+        '<div><span class="mono sub">' + esc(x.saat) + '</span><span><span class="tag ' + esc(x.tip) + '">' + esc(TIP[x.tip]?.ad || x.tip) + "</span> <b class=\"mono\">" + esc(x.kod) + "</b> " + esc(x.renk) +
+        '<br><span class="sub">' + (x.tip === "transfer" ? "Fabrika → Mağaza" : (x.yer === "magaza" ? "Mağaza" : "Fabrika")) + (x.not ? " · " + esc(x.not) : "") + '</span></span><span class="mono">' + (x.tip === "sayim" ? "=" : (x.tip === "satis" ? "−" : "+")) + num(x.miktar) + "</span></div>"
+      ).join("") : '<p class="empty">Bu tarihte hareket yok.</p>';
+    } catch (e) { box.innerHTML = '<p class="msg err">' + esc(hata(e)) + "</p>"; }
+  }
+
+  // ---------- Başlangıç ----------
+  hareketArayuz();
+  araCiz();
+  listeCiz();
+
+  (async () => {
+    db = window.claude?.use ? await window.claude.use("db") : null;
+    if (!db) { durum("Bağlantı yok", "bad"); $("ara-sonuc").innerHTML = '<p class="msg err">Veritabanına bağlanılamadı. Programı claude.ai içinde açın.</p>'; return; }
+    durum("Bağlı", "ok");
+    db.doc("ayarlar/genel").onSnapshot(s => {
+      if (s.exists) AYAR = { ...AYAR, ...s.data() };
+      document.querySelectorAll(".pb").forEach(el => { el.textContent = AYAR.paraBirimi; });
+      hareketArayuz(); araCiz(); listeCiz();
+    }, () => {});
+    db.collection("urunler").limit(1000).onSnapshot(snap => {
+      urunler.clear();
+      snap.docs.forEach(d => { const v = d.data(); urunler.set(d.id, { ...v, kod: v.kod || d.id }); });
+      $("kodlar").innerHTML = [...urunler.keys()].map(k => '<option value="' + esc(k) + '">').join("");
+      araCiz(); listeCiz(); renkSecenekleri(); onizle();
+      durum("Bağlı · " + num(urunler.size) + " model", "ok");
+    }, e => { durum("Bağlantı koptu", "bad"); $("ara-sonuc").innerHTML = '<p class="msg err">Bağlantı koptu. Sayfayı yenileyin.</p>'; });
+  })();
+})();
+</script>

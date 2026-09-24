@@ -57,7 +57,13 @@ Müşteriler Telegram'dan yazmadığı için müşteriyle konuşan ajan **WhatsA
 - [x] WhatsApp (+90 536 239 00 91) ve Telegram (t.me/Volonteroseoffical) siteye bağlandı.
 - [x] Kapsam daraltıldı: video, Instagram, TikTok şimdilik iptal.
 - [x] Soru listesi A–E cevaplandı (16. soru hariç).
-- [ ] 1. aşama: Stok programının adı ve dışa veri aktarma imkânı teyit edilecek.
+- [x] Karar: Eski stok programı yerine yeni, sade bir stok programı yazılıyor. Kullandıkça hatalar düzeltilip geliştirilecek.
+- [x] Stok programı 1. sürüm yayında: https://claude.ai/artifact/HE2rUVx7fiZpiAQnYm4Njh (sadece kullanıcıya açık)
+  - Kaynak kod: `stok-programi/volonte-stok.html` (değişiklikten sonra aynı artifact adresine yeniden yayınlanır)
+  - Veritabanı: `urunler/<stok kodu>` (ad, fiyat, renkler → mağaza/fabrika adedi), `gunluk/<YYYY-AA-GG>` (o günün hareket listesi), `ayarlar/genel` (paraBirimi, birim, azEsik)
+  - Claude verileri ArtifactData aracıyla okuyup düzeltebilir.
+- [ ] Kullanıcı ilk ürünleri girip denesin, geri bildirim versin.
+- [ ] Sonraki sürüm adayları: ödemeler, beden takibi, Excel'e aktarma, ürün fotoğrafı.
 
 ## Ortak sözlük
 
