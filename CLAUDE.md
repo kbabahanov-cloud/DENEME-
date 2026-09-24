@@ -17,6 +17,13 @@ Bu dosya, bu projede benimle (kullanıcıyla) nasıl çalışacağını anlatır
 - Telegram şu anda ana vitrinimiz (yaklaşık 14 bin takipçi).
 - Siparişleri çoğunlukla WhatsApp üzerinden tamamlıyoruz.
 - Sosyal medya kullanımı ve içerik üretimi gelecekte geliştireceğimiz alanlar.
+- İstanbul Laleli'de toptan mağazamız var.
+- Katalog sitesi: https://kbabahanov-cloud.github.io/VOLONTE/ (bu depo, GitHub Pages).
+
+## Devam eden büyük proje: VENOM sistemi
+
+Yapay zekâ destekli ana iş sistemi (stok, kanallar, içerik, sesli asistan).
+İstekler, sıralama ve açık sorular: `notlar/venom-sistemi.md`. Her oturumda önce bu dosyaya bak ve durumu güncel tut.
 
 ## Benim rolüm
 
