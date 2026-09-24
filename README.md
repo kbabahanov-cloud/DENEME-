@@ -21,7 +21,10 @@ Bir ürün satırını kopyalayıp kodu, adı, kategoriyi değiştirin. `yeni: t
 **Fotoğraf eklemek**
 1. Fotoğrafı `resimler/` klasörüne koyun (örnek: `resimler/vl-101.jpg`).
 2. `js/urunler.js` içinde o ürünün `resim: ""` kısmını `resim: "resimler/vl-101.jpg"` yapın.
-Dikey (3:4 oranında) fotoğraflar en iyi görünür.
+Dikey (2:3 oranında) fotoğraflar en iyi görünür.
+
+**Ana sayfaya kapak fotoğrafı koymak**
+Büyük, yatay bir fotoğrafı `resimler/kapak.jpg` adıyla `resimler/` klasörüne koyun. Ana sayfanın üst kısmında otomatik görünür. Fotoğraf yoksa sade gri bir zemin görünür.
 
 **Kategori eklemek** → `js/urunler.js` en üstteki `KATEGORILER` listesi.
 
@@ -29,4 +32,4 @@ Dikey (3:4 oranında) fotoğraflar en iyi görünür.
 
 ## Nasıl çalışır
 
-Her üründe "Ask price on WhatsApp" butonu vardır. Müşteri basınca WhatsApp açılır ve mesaja ürün kodu otomatik yazılır.
+Her üründe "Ask price" bağlantısı vardır. Müşteri basınca WhatsApp açılır ve mesaja ürün kodu otomatik yazılır.

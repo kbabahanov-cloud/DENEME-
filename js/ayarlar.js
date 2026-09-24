@@ -7,7 +7,10 @@
 const AYARLAR = {
   // WhatsApp numarası: ülke koduyla, başında + ve boşluk OLMADAN.
   // Örnek: Türkiye 0532 123 45 67  ->  "905321234567"
-  whatsappNumara: "905000000000",
+  whatsappNumara: "905362390091",
+
+  // Numaranın sitede görünen hâli
+  whatsappGorunen: "+90 536 239 00 91",
 
   // Telegram kanal linki
   telegramLink: "https://t.me/volonte",

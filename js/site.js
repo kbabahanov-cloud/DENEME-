@@ -51,16 +51,16 @@ function iletisimBilgileriniDoldur() {
   });
   document.querySelectorAll("[data-adres]").forEach(function (el) { el.textContent = AYARLAR.adres; });
   document.querySelectorAll("[data-saatler]").forEach(function (el) { el.textContent = AYARLAR.calismaSaatleri; });
-  document.querySelectorAll("[data-wa-numara]").forEach(function (el) { el.textContent = "+" + AYARLAR.whatsappNumara; });
+  document.querySelectorAll("[data-wa-numara]").forEach(function (el) { el.textContent = AYARLAR.whatsappGorunen || "+" + AYARLAR.whatsappNumara; });
   document.querySelectorAll("[data-yil]").forEach(function (el) { el.textContent = new Date().getFullYear(); });
 }
 
 // ---------- Ürün kartı ----------
 function urunKarti(u) {
-  const renk = u.renkler && u.renkler.length ? u.renkler[0] : "#C8963E";
+  const renk = u.renkler && u.renkler.length ? u.renkler[0] : "#d6d0c8";
   const gorsel = u.resim
     ? '<img src="' + yaziTemizle(u.resim) + '" alt="' + yaziTemizle(u.ad) + '" loading="lazy">'
-    : '<div class="placeholder" style="--c:' + renk + '"><span>' + yaziTemizle(u.kod) + "</span></div>";
+    : '<div class="placeholder" style="--c:' + renk + '"></div>';
 
   const noktalar = (u.renkler || []).map(function (r) {
     return '<span class="dot" style="background:' + r + '"></span>';
@@ -70,19 +70,14 @@ function urunKarti(u) {
 
   return (
     '<article class="product">' +
-      '<div class="product-media">' + gorsel +
+      '<a class="product-media" target="_blank" rel="noopener" href="' + whatsappLink(mesaj) + '" aria-label="Ask price for ' + yaziTemizle(u.ad) + '">' + gorsel +
         (u.yeni ? '<span class="badge">New</span>' : "") +
-      "</div>" +
+      "</a>" +
       '<div class="product-body">' +
-        '<p class="product-cat">' + yaziTemizle(kategoriAdi(u.kategori)) + "</p>" +
-        "<h3>" + yaziTemizle(u.ad) + "</h3>" +
-        '<p class="product-code">' + yaziTemizle(u.kod) + "</p>" +
-        '<ul class="product-meta">' +
-          "<li>Sizes: " + yaziTemizle(u.bedenler) + "</li>" +
-          "<li>" + u.seri + " pcs / series</li>" +
-        "</ul>" +
+        '<div class="product-row"><h3>' + yaziTemizle(u.ad) + '</h3><span class="product-code">' + yaziTemizle(u.kod) + "</span></div>" +
+        '<p class="product-meta">' + yaziTemizle(u.bedenler) + " · " + u.seri + " pcs / series</p>" +
         '<div class="dots">' + noktalar + "</div>" +
-        '<a class="btn btn-wa btn-block" target="_blank" rel="noopener" href="' + whatsappLink(mesaj) + '">Ask price on WhatsApp</a>' +
+        '<a class="product-link" target="_blank" rel="noopener" href="' + whatsappLink(mesaj) + '">Ask price</a>' +
       "</div>" +
     "</article>"
   );
@@ -132,14 +127,14 @@ function anaSayfayiKur() {
   if (kategoriAlani) {
     kategoriAlani.innerHTML = KATEGORILER.map(function (k) {
       const ilk = URUNLER.find(function (u) { return u.kategori === k.id; });
-      const renk = ilk && ilk.renkler.length ? ilk.renkler[0] : "#C8963E";
-      const adet = URUNLER.filter(function (u) { return u.kategori === k.id; }).length;
+      const renk = ilk && ilk.renkler.length ? ilk.renkler[0] : "#d6d0c8";
+      const gorsel = ilk && ilk.resim
+        ? '<img src="' + yaziTemizle(ilk.resim) + '" alt="" loading="lazy">'
+        : '<div class="placeholder" style="--c:' + renk + '"></div>';
       return (
-        '<a class="cat-card" href="urunler.html#' + k.id + '" style="--c:' + renk + '">' +
-          "<span class=\"cat-count\">" + adet + " models</span>" +
+        '<a class="cat-card" href="urunler.html#' + k.id + '">' +
+          '<div class="cat-media">' + gorsel + "</div>" +
           "<h3>" + yaziTemizle(k.ad) + "</h3>" +
-          "<p>" + yaziTemizle(k.aciklama) + "</p>" +
-          '<span class="cat-link">View collection →</span>' +
         "</a>"
       );
     }).join("");
