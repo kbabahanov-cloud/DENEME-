@@ -13,7 +13,7 @@ const AYARLAR = {
   whatsappGorunen: "+90 536 239 00 91",
 
   // Telegram kanal linki
-  telegramLink: "https://t.me/volonte",
+  telegramLink: "https://t.me/Volonteroseoffical",
 
   // E-posta adresi
   eposta: "info@volonte.com",
