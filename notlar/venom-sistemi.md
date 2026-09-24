@@ -30,21 +30,25 @@ Kullanıcı kapsamı daralttı:
   - Müşteriye normal bir insan gibi, net ve doğal bir dille cevap verir.
   - Kullanıcı bota bir fotoğraf verince Telegram kanalında paylaşım yapar (onaydan sonra).
 
-## Güncel sıralama
+## Güncel sıralama (cevaplardan sonra, 24 Eylül 2026)
+
+Müşteriler Telegram'dan yazmadığı için müşteriyle konuşan ajan **WhatsApp**'ta olacak. Telegram kanal paylaşımı ve kullanıcıya bildirim için kullanılacak.
 
 | Sıra | Aşama | Neden bu sırada |
 |---|---|---|
-| 1 | Stok listesi (ajanın bakacağı kaynak) | Ajan stoğu kontrol edebilmek için tek ve güncel bir listeye ihtiyaç duyar. |
-| 2 | Telegram ajanı (önce sadece kullanıcıyla test) | Kurulumu en kolay kanal. Cevap tarzı burada gerçek müşteriye çıkmadan ayarlanır. |
-| 3 | Fotoğraftan Telegram kanalı paylaşımı (onaylı) | Aynı bot üzerinden, ek maliyet olmadan. |
-| 4 | WhatsApp ajanı | Meta'nın WhatsApp Business Platform kurulumu ve onayı gerekir. Telegram'da olgunlaşan ajan buraya taşınır. |
-| 5 | Ofiste sesli asistan | Sonraya bırakıldı. |
+| 1 | Stok programından stok ve fiyat verisini almak | Ajan fiyat ve "var/yok" cevabını buradan verecek. |
+| 2 | WhatsApp ajanı, test numarasıyla | Müşteri konuşmaları burada. Gerçek numaraya geçmeden önce ayrı bir test numarasında denenir. |
+| 3 | Kullanıcının telefonuna bildirim | Sorun çıkınca veya müşteri sipariş vermek isteyince anında haber. |
+| 4 | Ajanı gerçek WhatsApp numarasına bağlamak | Test başarılı olunca, sohbet geçmişini riske atmadan. |
+| 5 | Fotoğraftan Telegram kanalı paylaşımı (onaylı) | Kanal zaten kullanılıyor, sonra eklenir. |
+| 6 | Ofiste sesli asistan | Sonraya bırakıldı. |
 
 ## Tasarım ilkeleri (öneri, kullanıcı onayı bekliyor)
 
 - Ajan stok ve ürün bilgisi verir. Sipariş kesinleştirme, ödeme, indirim ve pazarlık kullanıcıya devredilir.
 - Emin olmadığı her durumda uydurmaz, "kontrol edip dönüyorum" der ve kullanıcıya haber verir.
-- Müşterinin dilinde cevap verir (İngilizce, Fransızca, Rusça, Türkçe).
+- Müşterinin dilinde cevap verir (Fransızca, İngilizce, Portekizce; gerekirse Türkçe, Rusça).
+- Her zaman sabırlı ve kibar. Müşteriyle asla tartışmaz.
 - Kanal paylaşımları her zaman kullanıcı onayından sonra yapılır.
 
 ## Durum
@@ -52,7 +56,8 @@ Kullanıcı kapsamı daralttı:
 - [x] Katalog sitesi yayında: https://kbabahanov-cloud.github.io/VOLONTE/
 - [x] WhatsApp (+90 536 239 00 91) ve Telegram (t.me/Volonteroseoffical) siteye bağlandı.
 - [x] Kapsam daraltıldı: video, Instagram, TikTok şimdilik iptal.
-- [ ] 1. aşama: Stok listesi (stoğun şu an nasıl tutulduğu cevabı bekleniyor)
+- [x] Soru listesi A–E cevaplandı (16. soru hariç).
+- [ ] 1. aşama: Stok programının adı ve dışa veri aktarma imkânı teyit edilecek.
 
 ## Ortak sözlük
 
@@ -67,27 +72,27 @@ Kullanıcı kapsamı daralttı:
 ## Soru listesi (cevaplar geldikçe doldurulacak)
 
 ### A. Stok
-1. Stok şu an nasıl tutuluyor? (defter / Excel / program adı / akılda) — Cevap:
-2. Şu an kaç model var? Her modelde kaç renk ve beden var? — Cevap:
-3. Stok nerede duruyor: mağaza, depo, fabrika? Kaç fabrikayla çalışılıyor? — Cevap:
-4. Stoğu kim güncelleyecek ve ne sıklıkla (her satışta / günde bir)? — Cevap:
-5. Ürün kodu sistemi var mı? Örnek bir kod: — Cevap:
+1. Stok şu an nasıl tutuluyor? — Cevap: Bir stok programı. Sesli mesajda "Vega... A5" diye anlaşıldı; programın tam adı teyit edilecek.
+2. Şu an kaç model var? — Cevap: Mağazada ortalama 400 model. Renkler modele göre değişiyor.
+3. Stok nerede duruyor? — Cevap: Tek fabrika. Stok hem fabrikada hem mağazada var.
+4. Stoğu kim güncelliyor? — Cevap: Kullanıcı kendisi, her gün, elle giriyor.
+5. Ürün kodu var mı? — Cevap: Evet, her modelin stok kodu var. Örnek: 3394.
 
 ### B. Müşteriler
-6. Müşterilerin en sık sorduğu 5 soru nedir? (gerçek mesaj örnekleri çok faydalı) — Cevap:
-7. Müşteriler hangi dillerde yazıyor? — Cevap:
-8. Ajan fiyat söyleyebilir mi? Fiyat herkese aynı mı, müşteriye göre mi değişiyor? — Cevap:
-9. Ajan minimum sipariş, seri, kargo ve ödeme yollarını anlatabilir mi? — Cevap:
+6. En sık soru? — Cevap: Fiyat ("how much").
+7. Diller? — Cevap: Fransızca, İngilizce, Portekizce.
+8. Ajan fiyat söyleyebilir mi? — Cevap: Evet. Fiyat herkese aynı.
+9. Ajan kargo vb. anlatabilir mi? — Cevap: Evet, kargo gönderimini de anlatacak. (Kargo kuralları henüz alınmadı.)
 
 ### C. Kurallar
-10. Ajanın asla yapmaması gerekenler neler? — Cevap:
-11. Ajan cevap veremezse size nasıl haber versin? — Cevap:
-12. Ajan hangi saatlerde çalışsın (7/24 mü)? — Cevap:
+10. Ajanın asla yapmaması gerekenler? — Cevap: Müşteriye asla kötü davranmamalı. Her zaman sabırlı ve yumuşak olmalı ("her şeyi alttan almalı").
+11. Sorun olunca haber? — Cevap: Kullanıcının telefonuna anında bildirim gelsin, bir insan konuşmaya baksın.
+12. Çalışma saatleri? — Cevap: 7/24.
 
 ### D. Hesaplar
-13. Telegram'da müşteriler size nereden yazıyor (kişisel hesap / kanal yorumları / grup)? Telegram Premium var mı? — Cevap:
-14. WhatsApp normal uygulama mı, WhatsApp Business uygulaması mı? — Cevap:
+13. Telegram? — Cevap: Müşteriler Telegram'dan YAZMIYOR, kanalda sadece fotoğrafları görüyor. Telegram Premium var.
+14. WhatsApp? — Cevap: WhatsApp Business uygulaması.
 
 ### E. Bütçe ve ekip
-15. Bu sistem için aylık ne kadar harcamayı düşünürsünüz? — Cevap:
+15. Bütçe? — Cevap: Sistemin sağlıklı çalışması için gereken neyse.
 16. Ekipte bu işe yardım edebilecek biri var mı? — Cevap:
