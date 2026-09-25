@@ -140,6 +140,14 @@
   .yuzde { display: inline-block; font-family: var(--mono); font-size: 12px; font-weight: 600; padding: 1px 7px; border-radius: 6px; background: var(--move-soft); color: var(--move); }
   .tag.stokgiris { background: var(--in-soft); color: var(--in); }
   @media (max-width: 520px) { .row.m1 { grid-template-columns: 1fr; } }
+  .fis { background: #fff; color: #111; border: 1px dashed #999; border-radius: 6px; padding: 16px; font-family: var(--mono); font-size: 13px; display: grid; gap: 8px; max-width: 380px; width: 100%; box-sizing: border-box; justify-self: center; }
+  .fis h3 { font-family: var(--sans); text-align: center; letter-spacing: .2em; font-size: 20px; margin: 0; }
+  .fis .c { text-align: center; }
+  .fis table { font-size: 12px; }
+  .fis th, .fis td { padding: 4px 2px; border-bottom: 1px dotted #bbb; color: #111; }
+  .fis .t { display: flex; justify-content: space-between; gap: 8px; }
+  .fis .b { font-weight: 700; font-size: 15px; border-top: 1px solid #111; padding-top: 6px; }
+  .fisbtn { font-size: 12px; padding: 2px 8px; border: 1px solid var(--line); border-radius: 6px; background: var(--panel); cursor: pointer; margin-left: 6px; }
 </style>
 
 <div class="app">
@@ -178,6 +186,7 @@
     <label for="s-not">Not (isteğe bağlı)<input id="s-not" autocomplete="off"></label>
     <div id="s-mesaj"></div>
     <button class="btn" type="button" id="s-kaydet" disabled>Satışı kaydet</button>
+    <div id="s-fis"></div>
   </section>
 
   <!-- GİRİŞ -->
@@ -231,8 +240,8 @@
     </details>
 
     <div class="card-head">
-      <h2 style="font-size:18px">Ürünler <span class="sub" id="urun-sayisi"></span></h2>
-      <button class="btn ghost" type="button" id="yeni-ac">+ Yeni ürün</button>
+      <h2 style="font-size:18px">Stok kartları <span class="sub" id="urun-sayisi"></span></h2>
+      <button class="btn ghost" type="button" id="yeni-ac">+ Yeni stok kartı</button>
     </div>
     <form id="f-yeni" class="panel" hidden autocomplete="off">
       <div class="row">
@@ -242,7 +251,7 @@
       <label for="y-ad">Model adı<input id="y-ad" placeholder="Örn. Uzun abiye"></label>
       <label for="y-renkler">Renkler (virgülle ayırın)<input id="y-renkler" required placeholder="Siyah, Bordo, Bej"></label>
       <div id="y-mesaj"></div>
-      <div class="actions"><button class="btn" type="submit">Ürünü kaydet</button><button class="btn ghost" type="button" id="yeni-kapat">Vazgeç</button></div>
+      <div class="actions"><button class="btn" type="submit">Stok kartını kaydet</button><button class="btn ghost" type="button" id="yeni-kapat">Vazgeç</button></div>
     </form>
     <div class="row">
       <label for="liste-ara">Listede ara<input id="liste-ara" placeholder="Kod veya ad"></label>
@@ -370,6 +379,41 @@
     if (cariler.has(onceki)) sel.value = onceki;
   }
 
+  // ---------- Satış fişi ----------
+  const bakYazi = b => Math.abs(b) < 0.005 ? para(0) : b > 0 ? para(b) + " (A)" : para(-b) + " (B)";
+  function fisHtml(f) {
+    const t = new Date(f.zaman);
+    const adet = f.kalemler.reduce((s, x) => s + x.adet, 0);
+    return '<div class="fis"><h3>VOLONTE</h3><div class="c">Laleli · İstanbul</div>' +
+      '<div class="t"><span>Fiş no</span><span>' + esc(f.no) + '</span></div>' +
+      '<div class="t"><span>Tarih</span><span>' + t.toLocaleDateString("tr-TR") + " " + t.toLocaleTimeString("tr-TR", { hour: "2-digit", minute: "2-digit" }) + '</span></div>' +
+      '<div class="t"><span>Cari</span><span><b>' + esc(f.cari) + "</b></span></div>" +
+      '<table><thead><tr><th>Ürün</th><th style="text-align:right">Adet</th><th style="text-align:right">Fiyat</th><th style="text-align:right">Tutar</th></tr></thead><tbody>' +
+      f.kalemler.map(x => "<tr><td>" + esc(x.kod) + " " + esc(x.renk) + '</td><td style="text-align:right">' + num(x.adet) + '</td><td style="text-align:right">' + para(x.fiyat) + '</td><td style="text-align:right">' + para(x.adet * x.fiyat) + "</td></tr>").join("") +
+      "</tbody></table>" +
+      '<div class="t b"><span>TOPLAM (' + num(adet) + " adet)</span><span>" + para(f.toplam) + "</span></div>" +
+      (f.onceki !== undefined ? '<div class="t"><span>Önceki bakiye</span><span>' + bakYazi(f.onceki) + '</span></div><div class="t"><span>Yeni bakiye</span><span><b>' + bakYazi(f.sonraki) + "</b></span></div>" : "") +
+      (f.not ? '<div class="t"><span>Not</span><span>' + esc(f.not) + "</span></div>" : "") +
+      '<div class="c" style="margin-top:6px">Teşekkür ederiz · Thank you · Merci</div></div>';
+  }
+  function fisGoster(f, hedef) {
+    const box = hedef || $("s-fis");
+    box.innerHTML = '<div class="panel" style="padding:12px;background:var(--bg)"><span class="sec">Satış fişi</span>' + fisHtml(f) +
+      '<div class="actions"><button class="btn" type="button" data-indir>Fişi indir / yazdır</button><button class="btn ghost" type="button" data-kapat>Kapat</button></div><div data-fmesaj></div></div>';
+    box.querySelector("[data-kapat]").onclick = () => { box.innerHTML = ""; };
+    if (!hedef) setTimeout(() => box.scrollIntoView({ behavior: "smooth", block: "start" }), 50);
+    box.querySelector("[data-indir]").onclick = async () => {
+      const m = box.querySelector("[data-fmesaj]");
+      const dosya = '<!doctype html><html lang="tr"><head><meta charset="utf-8"><title>' + esc(f.no) + '</title><style>@page{size:80mm auto;margin:4mm}body{margin:0;font-family:"Courier New",monospace;font-size:12px;color:#111}.fis{width:72mm;display:grid;gap:6px}.fis h3{text-align:center;letter-spacing:.2em;font-size:18px;margin:0}.c{text-align:center}.t{display:flex;justify-content:space-between;gap:8px}.b{font-weight:700;font-size:14px;border-top:1px solid #111;padding-top:4px}table{width:100%;border-collapse:collapse;font-size:11px}th,td{padding:3px 1px;border-bottom:1px dotted #999;text-align:left}</style></head><body>' + fisHtml(f) + "<script>window.onload=function(){window.print()}<\/script></body></html>";
+      try {
+        const dl = await window.claude?.use?.("downloads");
+        if (!dl) { m.innerHTML = '<p class="msg info">Bu görünümde dosya indirilemiyor. Fişin ekran görüntüsünü alabilirsiniz.</p>'; return; }
+        await dl.save({ filename: "fis-" + f.no + ".html", data: dosya });
+        m.innerHTML = '<p class="msg ok">Fiş indirildi. Dosyayı açınca yazdırma penceresi açılır.</p>';
+      } catch (e) { m.innerHTML = e?.code === "declined" ? "" : '<p class="msg err">Fiş indirilemedi (' + esc(e?.code || "hata") + ").</p>"; }
+    };
+  }
+
   // ---------- Sepet (Satış ve Giriş için ortak) ----------
   function sepet(p, mod) {
     const satir = [];
@@ -385,7 +429,7 @@
       } else {
         $("g-renkler").innerHTML = u ? renkler(u).map(r => '<option value="' + esc(r) + '">').join("") : "";
       }
-      if (u && mod === "satis" && !el("fiyat").dataset.elle) el("fiyat").value = u.fiyat || "";
+      if (u && !el("fiyat").dataset.elle) el("fiyat").value = u.fiyat || "";
       uyar();
     }
     // Bu sepette aynı kod/renk/yer için zaten eklenmiş adet
@@ -410,7 +454,7 @@
     function uyar() {
       const k = kontrol();
       if (k.hata) return msg(p + "-uyari", k.hata);
-      if (k.ok?.yeni) return msg(p + "-uyari", k.ok.kod + " yeni bir ürün olarak eklenecek. Satış fiyatını sonra Stok sekmesinden yazın.", "info");
+      if (k.ok?.yeni) return msg(p + "-uyari", k.ok.kod + " için yeni stok kartı açılacak. Satış fiyatı " + para(k.ok.fiyat) + " olarak kaydedilecek.", "info");
       if (k.ok?.yeniRenk) return msg(p + "-uyari", k.ok.renk + " bu ürüne yeni renk olarak eklenecek.", "info");
       msg(p + "-uyari", "");
     }
@@ -460,6 +504,9 @@
       const brut = yuvarla(satir.reduce((t, x) => t + x.adet * x.fiyat, 0));
       const net = yuvarla(brut * (1 - y / 100));
       const zaman = new Date().toISOString(), not = el("not").value.trim();
+      const d = new Date(), iki = n => String(n).padStart(2, "0");
+      const fisNo = (mod === "satis" ? "S" : "G") + d.getFullYear() + iki(d.getMonth() + 1) + iki(d.getDate()) + "-" + iki(d.getHours()) + iki(d.getMinutes()) + iki(d.getSeconds());
+      const onceki = bakiye(c);
       const kalemler = satir.slice();
       el("kaydet").disabled = true;
       sirayla(async () => {
@@ -476,17 +523,18 @@
               const once = { ...s };
               s[x.yer] += mod === "satis" ? -x.adet : x.adet;
               yeniRenkler[x.renk] = s;
-              loglar.push({ saat: saat(), zaman, kod, renk: x.renk, tip: mod === "satis" ? "satis" : "giris", yer: x.yer, miktar: x.adet, fiyat: x.fiyat, once, sonra: { ...s }, cari: c.ad, not });
+              loglar.push({ saat: saat(), zaman, fisNo, kod, renk: x.renk, tip: mod === "satis" ? "satis" : "giris", yer: x.yer, miktar: x.adet, fiyat: x.fiyat, once, sonra: { ...s }, cari: c.ad, not });
             });
-            if (u) await db.doc("urunler/" + kod).update({ renkler: yeniRenkler, guncelleme: zaman });
-            else await db.doc("urunler/" + kod).set({ kod, ad: "", fiyat: 0, renkler: yeniRenkler, olusturma: zaman, guncelleme: zaman });
+            const girisFiyati = mod === "giris" ? grup[kod][grup[kod].length - 1].fiyat : 0;
+            if (u) await db.doc("urunler/" + kod).update({ renkler: yeniRenkler, guncelleme: zaman, ...(mod === "giris" && !u.fiyat && girisFiyati ? { fiyat: girisFiyati } : {}) });
+            else await db.doc("urunler/" + kod).set({ kod, ad: "", fiyat: girisFiyati, renkler: yeniRenkler, olusturma: zaman, guncelleme: zaman });
           }
           // 2) Günlük
           await gunlugeEkle(loglar);
           // 3) Cari
           const aciklama = kalemler.map(x => x.kod + " " + x.renk + " ×" + x.adet).join(", ");
           try {
-            await cariHareketEkle(cid, { tip: mod, brut, yuzde: y, tutar: mod === "giris" ? net : brut, etki: CTIP[mod].isaret * (mod === "giris" ? net : brut), aciklama: aciklama + (not ? " · " + not : "") });
+            await cariHareketEkle(cid, { tip: mod, fisNo, brut, yuzde: y, tutar: mod === "giris" ? net : brut, etki: CTIP[mod].isaret * (mod === "giris" ? net : brut), aciklama: aciklama + (not ? " · " + not : ""), not, kalemler: kalemler.map(x => ({ kod: x.kod, renk: x.renk, yer: x.yer, adet: x.adet, fiyat: x.fiyat })) });
           } catch (e) {
             msg(p + "-mesaj", "Stok kaydedildi ama " + c.ad + " carisine yazılamadı. Cariler sekmesinden kontrol edin.");
             satir.length = 0; ciz(); return;
@@ -494,6 +542,7 @@
           satir.length = 0; el("not").value = ""; ciz(); msg(p + "-mesaj", "");
           toast((mod === "satis" ? "Satış" : "Giriş") + " kaydedildi: " + c.ad + " · " + para(mod === "giris" ? net : brut));
           if (mod === "giris") cariBilgi();
+          if (mod === "satis") fisGoster({ no: fisNo, zaman, cari: c.ad, kalemler, toplam: brut, not, onceki, sonraki: yuvarla(onceki - brut) });
         } catch (e) { msg(p + "-mesaj", hata(e)); el("kaydet").disabled = false; }
       });
     });
@@ -649,7 +698,8 @@
     if (!c) { box.innerHTML = ""; cizilenCari = null; return; }
     const secili = (cizilenCari === acikCari && box.querySelector("#ch-tip")?.value) || (c.tur === "satis" ? "tahsilat" : "odeme");
     cizilenCari = acikCari;
-    const hs = (c.hareketler || []).slice().reverse();
+    let kos = 0;
+    const hs = (c.hareketler || []).map((x, i) => { const onceki = kos; kos = yuvarla(kos + Number(x.etki || 0)); return { ...x, i, onceki, sonraki: kos }; }).reverse();
     box.innerHTML =
       '<div class="panel detay">' +
         '<div class="card-head"><div><h3 style="font-size:20px">' + esc(c.ad) + '</h3><div class="sub">' + esc(TUR[c.tur] || "") + (c.tur === "giris" ? ' · <span class="yuzde">%' + num(c.yuzde || 0) + "</span>" : "") + (c.tel ? " · " + esc(c.tel) : "") + "</div></div>" + bakiyeHtml(bakiye(c)) + "</div>" +
@@ -663,9 +713,15 @@
           '<button class="btn" type="submit">Kaydet</button>' +
         "</form>" +
         '<span class="sec">Hareketler</span>' +
-        '<div class="log">' + (hs.length ? hs.map(x => '<div><span class="mono sub">' + esc(String(x.tarih || "").slice(5).split("-").reverse().join(".")) + '</span><span><span class="tag ' + esc(x.tip) + '">' + esc(CTIP[x.tip]?.ad || x.tip) + "</span> " + esc(x.aciklama || "") + (x.tip === "giris" && x.yuzde ? '<br><span class="sub">Brüt ' + para(x.brut) + " − %" + num(x.yuzde) + "</span>" : "") + '</span><span class="mono">' + (x.etki >= 0 ? "(A) +" : "(B) +") + para(Math.abs(x.etki)) + "</span></div>").join("") : '<p class="empty">Henüz hareket yok.</p>') + "</div>" +
+        '<div class="log">' + (hs.length ? hs.map(x => '<div><span class="mono sub">' + esc(String(x.tarih || "").slice(5).split("-").reverse().join(".")) + '</span><span><span class="tag ' + esc(x.tip) + '">' + esc(CTIP[x.tip]?.ad || x.tip) + "</span> " + esc(x.aciklama || "") + (x.tip === "giris" && x.yuzde ? '<br><span class="sub">Brüt ' + para(x.brut) + " − %" + num(x.yuzde) + "</span>" : "") + (x.tip === "satis" && x.kalemler ? '<button type="button" class="fisbtn" data-fis="' + x.i + '">Fiş</button>' : "") + '</span><span class="mono">' + (x.etki >= 0 ? "(A) +" : "(B) +") + para(Math.abs(x.etki)) + "</span></div>").join("") : '<p class="empty">Henüz hareket yok.</p>') + "</div>" +
+        '<div id="cd-fis"></div>' +
         '<div class="actions"><button class="btn ghost" type="button" id="cd-kapat">Kapat</button><button class="btn danger" type="button" id="cd-sil">Cariyi sil</button></div>' +
       "</div>";
+    box.querySelectorAll("[data-fis]").forEach(b => b.addEventListener("click", () => {
+      const x = hs.find(h => h.i === Number(b.dataset.fis));
+      fisGoster({ no: x.fisNo || "—", zaman: x.zaman, cari: c.ad, kalemler: x.kalemler, toplam: x.brut ?? x.tutar, not: x.not, onceki: x.onceki, sonraki: x.sonraki }, $("cd-fis"));
+      $("cd-fis").scrollIntoView({ behavior: "smooth", block: "center" });
+    }));
     const bilgi = () => { const t = $("ch-tip").value; $("ch-bilgi").textContent = CTIP[t].aciklama; $("ch-yon-kutu").hidden = t !== "acilis"; };
     $("ch-tip").onchange = bilgi; bilgi();
     $("cd-kapat").onclick = () => { acikCari = null; box.innerHTML = ""; };
