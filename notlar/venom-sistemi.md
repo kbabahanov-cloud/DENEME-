@@ -93,6 +93,28 @@ Kullanıcının cevapları (25 Eylül 2026):
 - Bakiye işareti Vegawin'deki gibi carinin tarafından: giriş → (A), satış → (B), tahsilat (B)'yi, ödeme (A)'yı azaltır. Kullanıcıya (A)/(B) yanında açıklama yazılmıyor, sadece harf.
 - Kullanıcı teyit etti: Vegawin'de de mal girişi (A)'yı, satış (B)'yi artırıyor. BLACKROSE 20'nin (A) bakiyesini VOLONTE ödeyecek.
 
+## 6. sürüm (25 Eylül 2026)
+
+- Satış kaydedilince **satış fişi** çıkar (fiş no `S<YYYYAAGG>-<SSDDss>`, tarih, cari, kalemler, toplam, önceki/yeni bakiye). "Fişi indir / yazdır" 80 mm HTML dosyası indirir; dosya açılınca yazdırma penceresi açılır (program sayfası doğrudan yazdıramaz). Eski fişler cari kartındaki satış hareketinin "Fiş" düğmesinden açılır.
+- Girişte birim fiyat ürünün satış fiyatından gelir. Yeni stok kartı girişle açılırsa girilen fiyat satış fiyatı olur. (Kullanıcı 100 $ satış fiyatı üzerinden girer; %20'lik caride 80 $ fabrikaya borç yazılır.)
+- "Ürün" adı "Stok kartı" oldu (Vegawin'deki gibi).
+- Yetenekler: `db` + `downloads`.
+
+## Claude'un sohbetten komutla işlem yapma yöntemi
+
+Kullanıcı sohbette (yazılı veya sesli) komut verebilir. Örnek: "3394 Siyah 10 adet mağazaya BLACKROSE 20'ye gir" veya "TOPTAN'a 3394 Siyah 3 adet sat".
+Claude ArtifactData ile programın veritabanına **sayfanın yaptığının aynısını** yazar:
+
+1. Önce oku: `cariler` (adı eşleşen cari, türü ve yüzdesi), ilgili `urunler/<kod>`, bugünkü `gunluk/<YYYY-AA-GG>`.
+2. Eksik veya belirsiz bir şey varsa (renk, yer, fiyat, cari adı) **yazmadan önce sor**. Satışta stok yetmiyorsa yazma, söyle.
+3. Yaz (her dokümanı okuduğun `version` ile `if_version` vererek, mümkünse tek `batch`):
+   - `urunler/<kod>`: `renkler.<renk>.magaza/fabrika` yeni değer, `guncelleme`. Girişte yeni kodsa `set` ile {kod, ad:"", fiyat: giriş fiyatı, renkler, olusturma, guncelleme}.
+   - `gunluk/<bugün>`: `kayitlar` listesine her kalem için {saat, zaman, fisNo, kod, renk, tip: "giris"|"satis", yer, miktar, fiyat, once, sonra, cari, not}.
+   - `cariler/<id>`: `hareketler` listesine {zaman, tarih, tip, fisNo, brut, yuzde, tutar, etki, aciklama, not, kalemler}. Giriş: tutar = brut × (1 − yuzde/100), etki = +tutar (A). Satış: tutar = brut, etki = −brut (B). Tahsilat: etki = +tutar. Ödeme: etki = −tutar.
+4. Kullanıcıya özet ver: ne yazıldı, yeni stok, carinin yeni bakiyesi (A/B). Satışta fişin programda cari kartındaki "Fiş" düğmesinden açılabileceğini söyle.
+
+Sınır: Claude sadece kullanıcı sohbetteyken çalışır; 7/24 kendiliğinden çalışan bir bot değildir.
+
 ## Ortak sözlük
 
 | Kelime | Anlamı |
