@@ -54,8 +54,8 @@
   .status.ok { background: var(--in-soft); color: var(--in); }
   .status.bad { background: var(--out-soft); color: var(--out); }
 
-  nav.tabs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; background: var(--soft); padding: 4px; border-radius: 12px; position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; }
-  nav.tabs button { border: 0; background: transparent; padding: 10px 4px; border-radius: 9px; font-weight: 600; font-size: 14px; color: var(--muted); cursor: pointer; }
+  nav.tabs { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; background: var(--soft); padding: 4px; border-radius: 12px; position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; }
+  nav.tabs button { border: 0; background: transparent; padding: 10px 2px; border-radius: 9px; font-weight: 600; font-size: 13px; color: var(--muted); cursor: pointer; }
   nav.tabs button[aria-selected="true"] { background: var(--panel); color: var(--ink); box-shadow: 0 1px 2px rgba(0,0,0,.08); }
 
   .panel { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 16px; display: grid; gap: 14px; }
@@ -110,6 +110,15 @@
   .tag.transfer { background: var(--move-soft); color: var(--move); }
   .tag.sayim { background: var(--warn-soft); color: var(--warn); }
 
+  .bakiye { font-family: var(--mono); font-weight: 600; font-variant-numeric: tabular-nums; }
+  .bakiye.b { color: var(--in); }
+  .bakiye.a { color: var(--out); }
+  .bakiye small { display: block; font-family: var(--sans); font-weight: 500; font-size: 11px; color: var(--muted); text-align: right; }
+  .detay { background: var(--bg); }
+  #cari-detay { scroll-margin-top: 72px; }
+  .tag.tahsilat { background: var(--in-soft); color: var(--in); }
+  .tag.odeme, .tag.alis { background: var(--move-soft); color: var(--move); }
+  .tag.acilis { background: var(--soft); color: var(--muted); }
   .empty { color: var(--muted); text-align: center; padding: 24px 8px; }
   .msg { padding: 10px 12px; border-radius: 10px; font-size: 14px; }
   .msg.err { background: var(--out-soft); color: var(--out); }
@@ -134,6 +143,7 @@
     <button role="tab" id="t-ara" aria-selected="true" data-tab="ara">Ara</button>
     <button role="tab" id="t-hareket" aria-selected="false" data-tab="hareket">Hareket</button>
     <button role="tab" id="t-urunler" aria-selected="false" data-tab="urunler">Ürünler</button>
+    <button role="tab" id="t-cariler" aria-selected="false" data-tab="cariler">Cariler</button>
     <button role="tab" id="t-gecmis" aria-selected="false" data-tab="gecmis">Geçmiş</button>
   </nav>
 
@@ -164,6 +174,10 @@
         <label for="h-yer" id="yer-kutu">Yer<select id="h-yer" name="yer"><option value="magaza">Mağaza</option><option value="fabrika">Fabrika</option></select></label>
         <label for="h-miktar"><span id="miktar-etiket">Miktar</span><input id="h-miktar" name="miktar" class="mono" type="number" inputmode="numeric" min="0" step="1" required></label>
       </div>
+      <div class="row" id="satis-cari-kutu" hidden>
+        <label for="h-cari">Müşteri (isteğe bağlı)<select id="h-cari"><option value="">Seçilmedi</option></select></label>
+        <label for="h-tutar">Tutar (<span class="pb">$</span>)<input id="h-tutar" class="mono" type="number" inputmode="decimal" min="0" step="0.01"></label>
+      </div>
       <label for="h-not">Not (isteğe bağlı)<input id="h-not" name="not" placeholder="Örn. müşteri adı, sevkiyat no"></label>
       <div id="h-onizleme"></div>
       <button class="btn" type="submit" id="h-kaydet">Kaydet</button>
@@ -193,6 +207,34 @@
       <label for="liste-filtre">Göster<select id="liste-filtre"><option value="hepsi">Hepsi</option><option value="tukenen">Tükenenler</option><option value="az">Azalanlar</option></select></label>
     </div>
     <div class="list" id="liste"></div>
+  </section>
+
+  <!-- CARİLER -->
+  <section id="p-cariler" class="panel" role="tabpanel" hidden>
+    <div class="card-head">
+      <h2 style="font-size:18px">Cariler <span class="sub" id="cari-sayisi"></span></h2>
+      <button class="btn" type="button" id="cari-yeni-ac">+ Yeni cari</button>
+    </div>
+    <form id="f-cari" class="panel" hidden autocomplete="off">
+      <h3 style="font-size:16px">Yeni cari</h3>
+      <div class="row">
+        <label for="c-ad">Firma / kişi adı<input id="c-ad" required placeholder="Örn. BLACKROSE"></label>
+        <label for="c-tur">Tür<select id="c-tur"><option value="musteri">Müşteri</option><option value="tedarikci">Tedarikçi / Fabrika</option><option value="gider">Gider hesabı</option></select></label>
+      </div>
+      <div class="row">
+        <label for="c-tel">Telefon / WhatsApp<input id="c-tel" inputmode="tel" placeholder="+221 ..."></label>
+        <label for="c-ulke">Ülke<input id="c-ulke" placeholder="Örn. Senegal"></label>
+      </div>
+      <div id="c-mesaj"></div>
+      <div class="actions"><button class="btn" type="submit">Cariyi kaydet</button><button class="btn ghost" type="button" id="cari-yeni-kapat">Vazgeç</button></div>
+    </form>
+    <div id="cari-detay"></div>
+    <div class="row">
+      <label for="cari-ara">Cari ara<input id="cari-ara" placeholder="Ad, telefon veya ülke"></label>
+      <label for="cari-filtre">Göster<select id="cari-filtre"><option value="hepsi">Hepsi</option><option value="b">Bize borçlu olanlar (B)</option><option value="a">Bizim borçlu olduklarımız (A)</option><option value="musteri">Sadece müşteriler</option><option value="tedarikci">Sadece tedarikçiler</option><option value="gider">Sadece gider hesapları</option></select></label>
+    </div>
+    <p class="sub" id="cari-toplam"></p>
+    <div class="list" id="cari-liste"></div>
   </section>
 
   <!-- GEÇMİŞ -->
@@ -246,7 +288,7 @@
   document.querySelectorAll("nav.tabs button").forEach(b => b.addEventListener("click", () => sekme(b.dataset.tab)));
   function sekme(ad) {
     document.querySelectorAll("nav.tabs button").forEach(b => b.setAttribute("aria-selected", String(b.dataset.tab === ad)));
-    ["ara", "hareket", "urunler", "gecmis"].forEach(p => { $("p-" + p).hidden = p !== ad; });
+    ["ara", "hareket", "urunler", "cariler", "gecmis"].forEach(p => { $("p-" + p).hidden = p !== ad; });
     if (ad === "gecmis") gecmisYukle();
   }
 
@@ -316,11 +358,20 @@
   form.addEventListener("change", hareketArayuz);
   $("h-kod").addEventListener("input", () => { renkSecenekleri(); onizle(); });
   ["h-renk", "h-yer", "h-miktar"].forEach(id => $(id).addEventListener("input", onizle));
+  let tutarElle = false;
+  $("h-tutar").addEventListener("input", () => { tutarElle = $("h-tutar").value !== ""; });
+  function tutarDoldur() {
+    if (tutarElle) return;
+    const u = urunler.get($("h-kod").value.trim()), m = Number($("h-miktar").value || 0);
+    $("h-tutar").value = u && m > 0 && u.fiyat ? Math.round(u.fiyat * m * 100) / 100 : "";
+  }
+  ["h-kod", "h-miktar"].forEach(id => $(id).addEventListener("input", tutarDoldur));
   function secilenTip() { return form.querySelector('input[name="tip"]:checked').value; }
   function hareketArayuz() {
     const tip = secilenTip();
     $("tip-aciklama").textContent = TIP[tip].aciklama;
     $("yer-kutu").hidden = tip === "transfer";
+    $("satis-cari-kutu").hidden = tip !== "satis";
     $("miktar-etiket").textContent = tip === "sayim" ? "Doğru sayı" : "Miktar (" + AYAR.birim + ")";
     onizle();
   }
@@ -365,6 +416,9 @@
     if (!h.u || !db) return;
     $("h-kaydet").disabled = true;
     const kayit = { saat: saat(), zaman: new Date().toISOString(), kod: h.kod, renk: h.renk, tip: h.tip, yer: h.yer, miktar: h.miktar, once: h.eski, sonra: h.yeni, not: $("h-not").value.trim() };
+    const cariId = h.tip === "satis" ? $("h-cari").value : "";
+    const tutar = Number($("h-tutar").value || 0);
+    if (cariId && cariler.has(cariId)) { kayit.cari = cariler.get(cariId).ad; kayit.tutar = tutar; }
     sirayla(async () => {
       try {
         await db.doc("urunler/" + h.kod).update({ renkler: { [h.renk]: h.yeni }, guncelleme: kayit.zaman });
@@ -373,6 +427,11 @@
         const liste = g.exists ? (g.data().kayitlar || []).slice() : [];
         liste.push(kayit);
         await gunRef.set({ tarih: bugun(), kayitlar: liste });
+        if (kayit.cari && tutar > 0) {
+          try { await cariHareketEkle(cariId, { tip: "satis", tutar, aciklama: h.kod + " " + h.renk + " × " + h.miktar }); }
+          catch (e) { $("h-onizleme").innerHTML = '<p class="msg err">Stok kaydedildi ama ' + esc(kayit.cari) + ' hesabına borç yazılamadı. Cariler sekmesinden elle "Satış" girin.</p>'; }
+        }
+        $("h-cari").value = ""; $("h-tutar").value = ""; tutarElle = false;
         toast("Kaydedildi: " + h.kod + " " + h.renk + " · Mağaza " + num(h.yeni.magaza) + ", Fabrika " + num(h.yeni.fabrika));
         $("h-miktar").value = ""; $("h-not").value = "";
         onizle();
@@ -426,6 +485,117 @@
     box.querySelectorAll("[data-kod]").forEach(b => b.addEventListener("click", () => { $("ara-kod").value = b.dataset.kod; araCiz(); sekme("ara"); }));
   }
 
+  // ---------- Cariler ----------
+  const cariler = new Map();
+  const CTIP = {
+    satis:    { ad: "Satış",           isaret: +1, aciklama: "Müşteriye mal verdik. Müşterinin borcu artar." },
+    tahsilat: { ad: "Tahsilat",        isaret: -1, aciklama: "Müşteriden para aldık. Borcu azalır." },
+    alis:     { ad: "Alış",            isaret: -1, aciklama: "Tedarikçiden mal aldık. Bizim borcumuz artar." },
+    odeme:    { ad: "Ödeme",           isaret: +1, aciklama: "Tedarikçiye veya gidere para ödedik. Bizim borcumuz azalır." },
+    acilis:   { ad: "Açılış bakiyesi", isaret: 0,  aciklama: "Eski programdaki bakiyeyi bir kez girin." }
+  };
+  const TUR = { musteri: "Müşteri", tedarikci: "Tedarikçi", gider: "Gider" };
+  function bakiye(c) { return Math.round((c.hareketler || []).reduce((t, x) => t + Number(x.etki || 0), 0) * 100) / 100; }
+  function bakiyeHtml(b) {
+    if (Math.abs(b) < 0.005) return '<span class="bakiye">' + para(0) + "<small>Hesap kapalı</small></span>";
+    return b > 0 ? '<span class="bakiye b">' + para(b) + " (B)<small>Bize borçlu</small></span>" : '<span class="bakiye a">' + para(-b) + " (A)<small>Biz borçluyuz</small></span>";
+  }
+  function cariSecenekleri() {
+    const sel = $("h-cari"), onceki = sel.value;
+    const arr = [...cariler.entries()].filter(([, c]) => c.tur === "musteri").sort((a, b) => String(a[1].ad).localeCompare(String(b[1].ad), "tr"));
+    sel.innerHTML = '<option value="">Seçilmedi</option>' + arr.map(([id, c]) => '<option value="' + esc(id) + '">' + esc(c.ad) + "</option>").join("");
+    if (cariler.has(onceki)) sel.value = onceki;
+  }
+  async function cariHareketEkle(id, x) {
+    const ref = db.doc("cariler/" + id);
+    const g = await ref.get();
+    if (!g.exists) throw { code: "cari_yok" };
+    const list = (g.data().hareketler || []).slice();
+    const etki = x.tip === "acilis" ? x.etki : CTIP[x.tip].isaret * x.tutar;
+    list.push({ zaman: new Date().toISOString(), tarih: bugun(), tip: x.tip, tutar: x.tutar, etki, aciklama: x.aciklama || "" });
+    await ref.update({ hareketler: list, guncelleme: new Date().toISOString() });
+  }
+
+  $("cari-yeni-ac").onclick = () => { $("f-cari").hidden = false; $("c-ad").focus(); };
+  $("cari-yeni-kapat").onclick = () => { $("f-cari").hidden = true; $("c-mesaj").innerHTML = ""; };
+  $("f-cari").addEventListener("submit", ev => {
+    ev.preventDefault();
+    const ad = $("c-ad").value.trim().toLocaleUpperCase("tr");
+    if (!ad) return;
+    if ([...cariler.values()].some(c => c.ad === ad)) { $("c-mesaj").innerHTML = '<p class="msg err">Bu adla bir cari zaten var: ' + esc(ad) + "</p>"; return; }
+    const simdi = new Date().toISOString();
+    sirayla(async () => {
+      try {
+        const ref = db.collection("cariler").doc();
+        await ref.set({ ad, tur: $("c-tur").value, tel: $("c-tel").value.trim(), ulke: $("c-ulke").value.trim(), hareketler: [], olusturma: simdi, guncelleme: simdi });
+        $("f-cari").reset(); $("f-cari").hidden = true; $("c-mesaj").innerHTML = "";
+        toast(ad + " eklendi");
+        acikCari = ref.id; setTimeout(cariDetayCiz, 300);
+      } catch (e) { $("c-mesaj").innerHTML = '<p class="msg err">' + esc(hata(e)) + "</p>"; }
+    });
+  });
+
+  ["cari-ara", "cari-filtre"].forEach(id => $(id).addEventListener("input", cariListeCiz));
+  function cariListeCiz() {
+    const q = $("cari-ara").value.trim().toLocaleLowerCase("tr"), f = $("cari-filtre").value;
+    let arr = [...cariler.entries()].map(([id, c]) => ({ id, c, b: bakiye(c) }));
+    $("cari-sayisi").textContent = "· " + num(arr.length) + " hesap";
+    const topB = arr.filter(x => x.c.tur === "musteri" && x.b > 0).reduce((t, x) => t + x.b, 0);
+    $("cari-toplam").textContent = arr.length ? "Müşterilerden alacağımız toplam: " + para(topB) : "";
+    if (q) arr = arr.filter(x => [x.c.ad, x.c.tel, x.c.ulke].some(v => String(v || "").toLocaleLowerCase("tr").includes(q)));
+    if (f === "b") arr = arr.filter(x => x.b > 0.004);
+    if (f === "a") arr = arr.filter(x => x.b < -0.004);
+    if (TUR[f]) arr = arr.filter(x => x.c.tur === f);
+    arr.sort((a, b) => String(a.c.ad).localeCompare(String(b.c.ad), "tr"));
+    const box = $("cari-liste");
+    if (!arr.length) { box.innerHTML = '<p class="empty">' + (cariler.size ? "Bu filtreye uyan hesap yok." : "Henüz cari yok. \"+ Yeni cari\" ile başlayın.") + "</p>"; return; }
+    box.innerHTML = arr.map(x => '<button type="button" class="item" data-cari="' + esc(x.id) + '"><span class="k" style="min-width:0"></span><span><b>' + esc(x.c.ad) + '</b><br><span class="sub">' + esc(TUR[x.c.tur] || "") + (x.c.ulke ? " · " + esc(x.c.ulke) : "") + (x.c.tel ? " · " + esc(x.c.tel) : "") + "</span></span>" + bakiyeHtml(x.b) + "</button>").join("");
+    box.querySelectorAll("[data-cari]").forEach(b => b.addEventListener("click", () => { acikCari = b.dataset.cari; cariDetayCiz(); $("cari-detay").scrollIntoView({ behavior: "smooth", block: "start" }); }));
+  }
+
+  let acikCari = null;
+  function cariDetayCiz() {
+    const box = $("cari-detay"), c = cariler.get(acikCari);
+    if (!c) { box.innerHTML = ""; return; }
+    const secili = box.querySelector("#ch-tip")?.value || (c.tur === "musteri" ? "tahsilat" : "odeme");
+    const hs = (c.hareketler || []).slice().reverse();
+    box.innerHTML =
+      '<div class="panel detay">' +
+        '<div class="card-head"><div><h3 style="font-size:20px">' + esc(c.ad) + '</h3><div class="sub">' + esc(TUR[c.tur] || "") + (c.ulke ? " · " + esc(c.ulke) : "") + (c.tel ? " · " + esc(c.tel) : "") + "</div></div>" + bakiyeHtml(bakiye(c)) + "</div>" +
+        '<form id="f-ch" class="panel" style="padding:12px" autocomplete="off">' +
+          '<div class="row"><label for="ch-tip">İşlem<select id="ch-tip">' + Object.entries(CTIP).map(([k, v]) => '<option value="' + k + '"' + (k === secili ? " selected" : "") + ">" + v.ad + "</option>").join("") + "</select></label>" +
+          '<label for="ch-tutar">Tutar (' + esc(AYAR.paraBirimi) + ')<input id="ch-tutar" class="mono" type="number" inputmode="decimal" min="0" step="0.01" required></label></div>' +
+          '<div class="row" id="ch-yon-kutu" hidden><label for="ch-yon">Bakiye yönü<select id="ch-yon"><option value="1">Bize borçlu (B)</option><option value="-1">Biz borçluyuz (A)</option></select></label><span></span></div>' +
+          '<label for="ch-aciklama">Açıklama (isteğe bağlı)<input id="ch-aciklama" placeholder="Örn. nakit, havale, fatura no"></label>' +
+          '<p class="sub" id="ch-bilgi"></p><div id="ch-mesaj"></div>' +
+          '<button class="btn" type="submit">Kaydet</button>' +
+        "</form>" +
+        '<div class="log">' + (hs.length ? hs.map(x => '<div><span class="mono sub">' + esc(String(x.tarih || "").slice(5).split("-").reverse().join(".")) + '</span><span><span class="tag ' + esc(x.tip) + '">' + esc(CTIP[x.tip]?.ad || x.tip) + "</span> " + esc(x.aciklama || "") + '</span><span class="mono">' + (x.etki >= 0 ? "+" : "−") + para(Math.abs(x.etki)) + "</span></div>").join("") : '<p class="empty">Bu hesapta henüz hareket yok.</p>') + "</div>" +
+        '<div class="actions"><button class="btn ghost" type="button" id="cd-kapat">Kapat</button><button class="btn danger" type="button" id="cd-sil">Cariyi sil</button></div>' +
+      "</div>";
+    const bilgi = () => { const t = $("ch-tip").value; $("ch-bilgi").textContent = CTIP[t].aciklama; $("ch-yon-kutu").hidden = t !== "acilis"; };
+    $("ch-tip").onchange = bilgi; bilgi();
+    $("cd-kapat").onclick = () => { acikCari = null; box.innerHTML = ""; };
+    let silOnay = false;
+    $("cd-sil").onclick = () => {
+      if (!silOnay) { silOnay = true; $("cd-sil").textContent = "Emin misiniz? Tekrar basın"; return; }
+      const id = acikCari;
+      sirayla(async () => { try { await db.doc("cariler/" + id).delete(); toast(c.ad + " silindi"); acikCari = null; box.innerHTML = ""; } catch (e) { $("ch-mesaj").innerHTML = '<p class="msg err">' + esc(hata(e)) + "</p>"; } });
+    };
+    $("f-ch").onsubmit = ev => {
+      ev.preventDefault();
+      const tip = $("ch-tip").value, tutar = Math.round(Number($("ch-tutar").value || 0) * 100) / 100;
+      if (!(tutar > 0)) { $("ch-mesaj").innerHTML = '<p class="msg err">Tutar sıfırdan büyük olmalı.</p>'; return; }
+      const x = { tip, tutar, aciklama: $("ch-aciklama").value.trim() };
+      if (tip === "acilis") x.etki = tutar * Number($("ch-yon").value);
+      const id = acikCari;
+      sirayla(async () => {
+        try { await cariHareketEkle(id, x); toast(c.ad + ": " + CTIP[tip].ad + " " + para(tutar) + " kaydedildi"); }
+        catch (e) { $("ch-mesaj").innerHTML = '<p class="msg err">' + esc(hata(e)) + "</p>"; }
+      });
+    };
+  }
+
   // ---------- Geçmiş ----------
   $("g-tarih").value = bugun();
   $("g-tarih").addEventListener("change", gecmisYukle);
@@ -440,7 +610,7 @@
       $("g-ozet").textContent = k.length ? (k.length + " hareket · Giriş " + num(say("giris")) + " · Satış " + num(say("satis")) + " · Transfer " + num(say("transfer")) + " " + AYAR.birim) : "";
       box.innerHTML = k.length ? k.slice().reverse().map(x =>
         '<div><span class="mono sub">' + esc(x.saat) + '</span><span><span class="tag ' + esc(x.tip) + '">' + esc(TIP[x.tip]?.ad || x.tip) + "</span> <b class=\"mono\">" + esc(x.kod) + "</b> " + esc(x.renk) +
-        '<br><span class="sub">' + (x.tip === "transfer" ? "Fabrika → Mağaza" : (x.yer === "magaza" ? "Mağaza" : "Fabrika")) + (x.not ? " · " + esc(x.not) : "") + '</span></span><span class="mono">' + (x.tip === "sayim" ? "=" : (x.tip === "satis" ? "−" : "+")) + num(x.miktar) + "</span></div>"
+        '<br><span class="sub">' + (x.tip === "transfer" ? "Fabrika → Mağaza" : (x.yer === "magaza" ? "Mağaza" : "Fabrika")) + (x.cari ? " · " + esc(x.cari) + (x.tutar ? " " + para(x.tutar) : "") : "") + (x.not ? " · " + esc(x.not) : "") + '</span></span><span class="mono">' + (x.tip === "sayim" ? "=" : (x.tip === "satis" ? "−" : "+")) + num(x.miktar) + "</span></div>"
       ).join("") : '<p class="empty">Bu tarihte hareket yok.</p>';
     } catch (e) { box.innerHTML = '<p class="msg err">' + esc(hata(e)) + "</p>"; }
   }
@@ -466,6 +636,12 @@
       araCiz(); listeCiz(); renkSecenekleri(); onizle();
       durum("Bağlı · " + num(urunler.size) + " model", "ok");
     }, e => { durum("Bağlantı koptu", "bad"); $("ara-sonuc").innerHTML = '<p class="msg err">Bağlantı koptu. Sayfayı yenileyin.</p>'; });
+    db.collection("cariler").limit(1000).onSnapshot(snap => {
+      cariler.clear();
+      snap.docs.forEach(d => cariler.set(d.id, d.data()));
+      cariListeCiz(); cariSecenekleri();
+      if (acikCari) cariDetayCiz();
+    }, () => { $("cari-liste").innerHTML = '<p class="msg err">Cariler yüklenemedi. Sayfayı yenileyin.</p>'; });
   })();
 })();
 </script>

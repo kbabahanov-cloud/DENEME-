@@ -60,10 +60,12 @@ Müşteriler Telegram'dan yazmadığı için müşteriyle konuşan ajan **WhatsA
 - [x] Karar: Eski stok programı yerine yeni, sade bir stok programı yazılıyor. Kullandıkça hatalar düzeltilip geliştirilecek.
 - [x] Stok programı 1. sürüm yayında: https://claude.ai/artifact/HE2rUVx7fiZpiAQnYm4Njh (sadece kullanıcıya açık)
   - Kaynak kod: `stok-programi/volonte-stok.html` (değişiklikten sonra aynı artifact adresine yeniden yayınlanır)
-  - Veritabanı: `urunler/<stok kodu>` (ad, fiyat, renkler → mağaza/fabrika adedi), `gunluk/<YYYY-AA-GG>` (o günün hareket listesi), `ayarlar/genel` (paraBirimi, birim, azEsik)
+  - Veritabanı: `urunler/<stok kodu>` (ad, fiyat, renkler → mağaza/fabrika adedi), `gunluk/<YYYY-AA-GG>` (o günün hareket listesi), `cariler/<otomatik id>` (ad, tur: musteri/tedarikci/gider, tel, ulke, hareketler[] → her hareketin `etki` değeri; bakiye = etkilerin toplamı, pozitif = bize borçlu (B), negatif = biz borçluyuz (A)), `ayarlar/genel` (paraBirimi, birim, azEsik)
+- [x] 2. sürüm (25 Eylül 2026): Vegawin ekranlarına göre **Cariler** sekmesi eklendi: satış, tahsilat, alış, ödeme, açılış bakiyesi. Stoktan satış girerken müşteri seçilirse tutar (fiyat × miktar) cariye otomatik borç yazılır.
+- [ ] Kullanıcıya sorulacak: Vegawin'deki (A)/(B) anlamı bizimkiyle aynı mı ((B) = bize borçlu)? Tutarlar hangi para biriminde?
   - Claude verileri ArtifactData aracıyla okuyup düzeltebilir.
 - [ ] Kullanıcı ilk ürünleri girip denesin, geri bildirim versin.
-- [ ] Sonraki sürüm adayları: ödemeler, beden takibi, Excel'e aktarma, ürün fotoğrafı.
+- [ ] Sonraki sürüm adayları: kasa / banka, fatura çıktısı, beden takibi, Excel'e aktarma, ürün fotoğrafı.
 
 ## Ortak sözlük
 
@@ -78,7 +80,7 @@ Müşteriler Telegram'dan yazmadığı için müşteriyle konuşan ajan **WhatsA
 ## Soru listesi (cevaplar geldikçe doldurulacak)
 
 ### A. Stok
-1. Stok şu an nasıl tutuluyor? — Cevap: Bir stok programı. Sesli mesajda "Vega... A5" diye anlaşıldı; programın tam adı teyit edilecek.
+1. Stok şu an nasıl tutuluyor? — Cevap: **Vegawin A5** (Vega Yazılım), firma adı "VOLONTE-2023". Ekran fotoğraflarından görülen modüller: Finansman (cari kartlar, satış/alış faturası, iadeler, tahsilat, ödeme), Stok Yönetimi, İşlem Kasası, Banka Yönetimi. Cari bakiyeleri (A)/(B) ile gösteriliyor. Cari listesinde müşterilerin yanında gider hesapları da var.
 2. Şu an kaç model var? — Cevap: Mağazada ortalama 400 model. Renkler modele göre değişiyor.
 3. Stok nerede duruyor? — Cevap: Tek fabrika. Stok hem fabrikada hem mağazada var.
 4. Stoğu kim güncelliyor? — Cevap: Kullanıcı kendisi, her gün, elle giriyor.
