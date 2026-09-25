@@ -231,7 +231,7 @@
     <div id="cari-detay"></div>
     <div class="row">
       <label for="cari-ara">Cari ara<input id="cari-ara" placeholder="Ad, telefon veya ülke"></label>
-      <label for="cari-filtre">Göster<select id="cari-filtre"><option value="hepsi">Hepsi</option><option value="b">Bize borçlu olanlar (B)</option><option value="a">Bizim borçlu olduklarımız (A)</option><option value="musteri">Sadece müşteriler</option><option value="tedarikci">Sadece tedarikçiler</option><option value="gider">Sadece gider hesapları</option></select></label>
+      <label for="cari-filtre">Göster<select id="cari-filtre"><option value="hepsi">Hepsi</option><option value="b">Alacaklı olduklarımız (A)</option><option value="a">Borçlu olduklarımız (B)</option><option value="musteri">Sadece müşteriler</option><option value="tedarikci">Sadece tedarikçiler</option><option value="gider">Sadece gider hesapları</option></select></label>
     </div>
     <p class="sub" id="cari-toplam"></p>
     <div class="list" id="cari-liste"></div>
@@ -498,7 +498,7 @@
   function bakiye(c) { return Math.round((c.hareketler || []).reduce((t, x) => t + Number(x.etki || 0), 0) * 100) / 100; }
   function bakiyeHtml(b) {
     if (Math.abs(b) < 0.005) return '<span class="bakiye">' + para(0) + "<small>Hesap kapalı</small></span>";
-    return b > 0 ? '<span class="bakiye b">' + para(b) + " (B)<small>Bize borçlu</small></span>" : '<span class="bakiye a">' + para(-b) + " (A)<small>Biz borçluyuz</small></span>";
+    return b > 0 ? '<span class="bakiye b">' + para(b) + " (A)<small>Alacaklıyız</small></span>" : '<span class="bakiye a">' + para(-b) + " (B)<small>Borçluyuz</small></span>";
   }
   function cariSecenekleri() {
     const sel = $("h-cari"), onceki = sel.value;
@@ -565,7 +565,7 @@
         '<form id="f-ch" class="panel" style="padding:12px" autocomplete="off">' +
           '<div class="row"><label for="ch-tip">İşlem<select id="ch-tip">' + Object.entries(CTIP).map(([k, v]) => '<option value="' + k + '"' + (k === secili ? " selected" : "") + ">" + v.ad + "</option>").join("") + "</select></label>" +
           '<label for="ch-tutar">Tutar (' + esc(AYAR.paraBirimi) + ')<input id="ch-tutar" class="mono" type="number" inputmode="decimal" min="0" step="0.01" required></label></div>' +
-          '<div class="row" id="ch-yon-kutu" hidden><label for="ch-yon">Bakiye yönü<select id="ch-yon"><option value="1">Bize borçlu (B)</option><option value="-1">Biz borçluyuz (A)</option></select></label><span></span></div>' +
+          '<div class="row" id="ch-yon-kutu" hidden><label for="ch-yon">Bakiye yönü<select id="ch-yon"><option value="1">(A) Biz alacaklıyız</option><option value="-1">(B) Biz borçluyuz</option></select></label><span></span></div>' +
           '<label for="ch-aciklama">Açıklama (isteğe bağlı)<input id="ch-aciklama" placeholder="Örn. nakit, havale, fatura no"></label>' +
           '<p class="sub" id="ch-bilgi"></p><div id="ch-mesaj"></div>' +
           '<button class="btn" type="submit">Kaydet</button>' +
