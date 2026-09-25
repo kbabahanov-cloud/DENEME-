@@ -93,6 +93,13 @@ Kullanıcının cevapları (25 Eylül 2026):
 - Bakiye işareti Vegawin'deki gibi carinin tarafından: giriş → (A), satış → (B), tahsilat (B)'yi, ödeme (A)'yı azaltır. Kullanıcıya (A)/(B) yanında açıklama yazılmıyor, sadece harf.
 - Kullanıcı teyit etti: Vegawin'de de mal girişi (A)'yı, satış (B)'yi artırıyor. BLACKROSE 20'nin (A) bakiyesini VOLONTE ödeyecek.
 
+## ⏸ STOK PROGRAMI BEKLEMEDE — KALDIĞIMIZ YER (25 Eylül 2026)
+
+Kullanıcı stok programını bir kenara koydu, önce WhatsApp ajanına geçildi. Dönünce buradan devam:
+- Program 6. sürümde, yayında, veritabanı **boş** (kullanıcı henüz kayıt girmedi).
+- Yapılacaklar: fotoğraftaki 14 cariyi Vegawin bakiyeleriyle yüklemek (TOPTAN = satış; BLACKROSE 20/15/000 = giriş %20/%15/%0; YENİ MAĞAZA GİDERLERİ = gider; diğerlerinin türü kullanıcıdan öğrenilecek). "Yazar fişi" = bu satış fişi mi, yasal yazarkasa fişi mi, sorulacak.
+- Kullanıcı birkaç gerçek giriş/satış yapıp geri bildirim verecek.
+
 ## 6. sürüm (25 Eylül 2026)
 
 - Satış kaydedilince **satış fişi** çıkar (fiş no `S<YYYYAAGG>-<SSDDss>`, tarih, cari, kalemler, toplam, önceki/yeni bakiye). "Fişi indir / yazdır" 80 mm HTML dosyası indirir; dosya açılınca yazdırma penceresi açılır (program sayfası doğrudan yazdıramaz). Eski fişler cari kartındaki satış hareketinin "Fiş" düğmesinden açılır.
