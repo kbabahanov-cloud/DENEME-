@@ -60,9 +60,10 @@ Müşteriler Telegram'dan yazmadığı için müşteriyle konuşan ajan **WhatsA
 - [x] Karar: Eski stok programı yerine yeni, sade bir stok programı yazılıyor. Kullandıkça hatalar düzeltilip geliştirilecek.
 - [x] Stok programı 1. sürüm yayında: https://claude.ai/artifact/HE2rUVx7fiZpiAQnYm4Njh (sadece kullanıcıya açık)
   - Kaynak kod: `stok-programi/volonte-stok.html` (değişiklikten sonra aynı artifact adresine yeniden yayınlanır)
-  - Veritabanı: `urunler/<stok kodu>` (ad, fiyat, renkler → mağaza/fabrika adedi), `gunluk/<YYYY-AA-GG>` (o günün hareket listesi), `cariler/<otomatik id>` (ad, tur: musteri/tedarikci/gider, tel, ulke, hareketler[] → her hareketin `etki` değeri; bakiye = etkilerin toplamı, pozitif = bize borçlu (B), negatif = biz borçluyuz (A)), `ayarlar/genel` (paraBirimi, birim, azEsik)
+  - Veritabanı: `urunler/<stok kodu>` (ad, fiyat, renkler → mağaza/fabrika adedi), `gunluk/<YYYY-AA-GG>` (o günün hareket listesi), `cariler/<otomatik id>` (ad, tur: musteri/tedarikci/gider, tel, ulke, hareketler[] → her hareketin `etki` değeri; bakiye = etkilerin toplamı, pozitif = (A) biz alacaklıyız, negatif = (B) biz borçluyuz), `ayarlar/genel` (paraBirimi, birim, azEsik)
 - [x] 2. sürüm (25 Eylül 2026): Vegawin ekranlarına göre **Cariler** sekmesi eklendi: satış, tahsilat, alış, ödeme, açılış bakiyesi. Stoktan satış girerken müşteri seçilirse tutar (fiyat × miktar) cariye otomatik borç yazılır.
-- [ ] Kullanıcıya sorulacak: Vegawin'deki (A)/(B) anlamı bizimkiyle aynı mı ((B) = bize borçlu)? Tutarlar hangi para biriminde?
+- [x] Kullanıcı kararı: **(A) = biz alacaklıyız, (B) = biz borçluyuz.** Program buna göre güncellendi.
+- [ ] Kullanıcıya sorulacak: Vegawin'deki tutarlar hangi para biriminde (TL / $)?
   - Claude verileri ArtifactData aracıyla okuyup düzeltebilir.
 - [ ] Kullanıcı ilk ürünleri girip denesin, geri bildirim versin.
 - [ ] Sonraki sürüm adayları: kasa / banka, fatura çıktısı, beden takibi, Excel'e aktarma, ürün fotoğrafı.
