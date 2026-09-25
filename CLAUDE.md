@@ -25,6 +25,8 @@ Bu dosya, bu projede benimle (kullanıcıyla) nasıl çalışacağını anlatır
 Yapay zekâ destekli ana iş sistemi (stok, kanallar, içerik, sesli asistan).
 İstekler, sıralama ve açık sorular: `notlar/venom-sistemi.md`. Her oturumda önce bu dosyaya bak ve durumu güncel tut.
 
+**Çalışma şekli (kullanıcı kararı):** Süreci Claude yönetir. `notlar/venom-sistemi.md` içindeki **ANA PLAN → "Sıradaki komut"** satırından devam et. Kullanıcıya her seferinde **tek bir** net komut ver, yapınca işaretle ve sıradakine geç. Para harcama, asıl WhatsApp numarası ve geri alınamaz işlemler için yine onay al.
+
 ## Benim rolüm
 
 - WhatsApp üzerinden müşterilerle ilgilenmek.

@@ -21,6 +21,33 @@
      - Video kullanıcıya sunulur. **Kullanıcı onay vermeden hiçbir şey yayınlanmaz.**
      - Onaydan sonra Telegram, TikTok ve Instagram'da yayınlanır.
 
+## 🧭 ANA PLAN (25 Eylül 2026'dan itibaren geçerli, diğer sıralamaların yerine geçer)
+
+Kullanıcı kararı: Sistemin tamamını programlamayı ve süreci yönetmeyi Claude'a bıraktı. **Claude yolu çizer ve her seferinde tek bir komut verir. Kullanıcı yapar ve sonucu bildirir.** Para harcanacak, asıl WhatsApp numarasına dokunulacak veya geri alınamaz bir işlem yapılacaksa Claude yine önce onay ister.
+
+Her oturumda: bu bölümdeki **"Sıradaki komut"** satırından devam et, biten komutu işaretle, bir sonrakini ver.
+
+| Aşama | İçerik | Bitti ölçüsü |
+|---|---|---|
+| 0 | Hesap başvuruları: Meta işletme hesabı + doğrulama, test için ikinci hat | Doğrulama başvurusu yapılmış, test hattı var |
+| 1 | Stok programını gerçek kullanıma almak (400 model, fiyatlar, cariler) | Kullanıcı 1 hafta günlük giriş/satış yapmış |
+| 2 | Ajan el kitabı (WhatsApp sohbetlerinden) — 1 ile paralel | Kullanıcı el kitabını onaylamış |
+| 3 | Deneme odası (stok programı içinde ajan sekmesi) | 20–30 soruya cevaplar kullanıcıyı tatmin ediyor |
+| 4 | Altyapı kararı (WhatsApp platformu, stok verisinin 7/24 erişilebilir yere taşınması) | Platform seçilmiş, maliyet belli |
+| 5 | Test numarasıyla WhatsApp | 1 hafta sorunsuz |
+| 6 | Asıl numara + telefona bildirim + devralma | 2 hafta canlı |
+| 7 | Telegram kanal paylaşımı (onaylı) | |
+| 8 | Sesli asistan, Instagram, TikTok | |
+
+### Komut listesi
+- [ ] **Komut 1 — Cari türleri** (Aşama 1): MURAT, WITH YOU, RASIT TM, MY STYL, MURAT ELBISE, CELAL KARAYAN, TIRYESTE, CELAL INDIRIM satış mı giriş mi (giriş ise yüzde)? → Claude 14 cariyi Vegawin bakiyeleriyle yükler.
+- [ ] Komut 2 — Vegawin'den stok listesi (Excel veya ekran fotoğrafları) → Claude 400 modeli yükler.
+- [ ] Komut 3 — 10–20 WhatsApp sohbeti dışa aktarma ("Medya olmadan") → Claude el kitabını çıkarır.
+- [ ] Komut 4 — Meta işletme hesabı açma (adım adım).
+- [ ] Komut 5 — Test için ikinci telefon hattı.
+
+**Sıradaki komut: Komut 1.**
+
 ## Kapsam kararı (24 Eylül 2026)
 
 Kullanıcı kapsamı daralttı:
