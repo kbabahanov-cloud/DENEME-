@@ -39,12 +39,17 @@ Her oturumda: bu bölümdeki **"Sıradaki komut"** satırından devam et, biten 
 | 7 | Telegram kanal paylaşımı (onaylı) | |
 | 8 | Sesli asistan, Instagram, TikTok | |
 
-### Komut listesi
-- [ ] **Komut 1 — Cari türleri** (Aşama 1): MURAT, WITH YOU, RASIT TM, MY STYL, MURAT ELBISE, CELAL KARAYAN, TIRYESTE, CELAL INDIRIM satış mı giriş mi (giriş ise yüzde)? → Claude 14 cariyi Vegawin bakiyeleriyle yükler.
-- [ ] Komut 2 — Vegawin'den stok listesi (Excel veya ekran fotoğrafları) → Claude 400 modeli yükler.
-- [ ] Komut 3 — 10–20 WhatsApp sohbeti dışa aktarma ("Medya olmadan") → Claude el kitabını çıkarır.
-- [ ] Komut 4 — Meta işletme hesabı açma (adım adım).
-- [ ] Komut 5 — Test için ikinci telefon hattı.
+### Komut listesi (hıza göre yeniden sıralandı, 25 Eylül 2026 — kullanıcı: "sen hangisini doğru görüyorsan, hızlı bitirelim")
+Mantık: En uzun bekleme Meta doğrulaması (10 dk – 14 iş günü) → ilk o başlar; beklerken el kitabı ve stok listesi hazırlanır. Cari bakiyeleri ajan için gerekmez → sona alındı.
+Araştırma notu: Meta "Coexistence" ile WhatsApp Business uygulaması ve Cloud API aynı numarada birlikte çalışır; sohbet geçmişi ve kişiler korunur. Sınırlar: bağlı ek cihazlar (WhatsApp Web/masaüstü) bir kez ayrılır, yeniden bağlanabilir; saniyede 5 mesaj sınırı. Türkiye'de destek kurulum sırasında teyit edilecek.
+Meta doğrulaması web sitesinde şirket bilgisi (resmi unvan, adres) görmek istiyor → katalog sitesinin alt kısmına eklenecek.
+
+- [ ] **Komut 1 — Meta işletme portföyü** (Aşama 0): business.facebook.com'da portföy aç; resmi unvan, adres, telefonu Claude'a bildir (siteye eklenecek); vergi levhası + faaliyet belgesi / ticaret sicil gazetesi hazır olsun. Doğrulama site güncellenince başlatılacak.
+- [ ] Komut 2 — 10–20 WhatsApp sohbeti dışa aktarma ("Medya olmadan") → el kitabı.
+- [ ] Komut 3 — Vegawin'den stok listesi (Excel veya ekran fotoğrafları) → 400 model yüklenir.
+- [ ] Komut 4 — Meta doğrulamasını başlatma (site güncellendikten sonra).
+- [ ] Komut 5 — WhatsApp platformu seçimi (Claude karşılaştırma sunar, kullanıcı onaylar).
+- [ ] Komut 6 — Cari türleri ve bakiyeleri (MURAT, WITH YOU, RASIT TM, MY STYL, MURAT ELBISE, CELAL KARAYAN, TIRYESTE, CELAL INDIRIM).
 
 **Sıradaki komut: Komut 1.**
 
