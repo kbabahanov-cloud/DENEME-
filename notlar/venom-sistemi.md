@@ -63,7 +63,7 @@ Müşteriler Telegram'dan yazmadığı için müşteriyle konuşan ajan **WhatsA
   - Veritabanı: `urunler/<stok kodu>` (ad, fiyat, renkler → mağaza/fabrika adedi), `gunluk/<YYYY-AA-GG>` (o günün hareket listesi), `cariler/<otomatik id>` (ad, tur: musteri/tedarikci/gider, tel, ulke, hareketler[] → her hareketin `etki` değeri; bakiye = etkilerin toplamı, pozitif = (A) biz alacaklıyız, negatif = (B) biz borçluyuz), `ayarlar/genel` (paraBirimi, birim, azEsik)
 - [x] 2. sürüm (25 Eylül 2026): Vegawin ekranlarına göre **Cariler** sekmesi eklendi: satış, tahsilat, alış, ödeme, açılış bakiyesi. Stoktan satış girerken müşteri seçilirse tutar (fiyat × miktar) cariye otomatik borç yazılır.
 - [x] Kullanıcı kararı: **(A) = biz alacaklıyız, (B) = biz borçluyuz.** Program buna göre güncellendi.
-- [ ] Kullanıcıya sorulacak: Vegawin'deki tutarlar hangi para biriminde (TL / $)?
+- [x] Para birimi: dolar.
   - Claude verileri ArtifactData aracıyla okuyup düzeltebilir.
 - [ ] Kullanıcı ilk ürünleri girip denesin, geri bildirim versin.
 - [ ] Sonraki sürüm adayları: kasa / banka, fatura çıktısı, beden takibi, Excel'e aktarma, ürün fotoğrafı.
@@ -78,12 +78,20 @@ Her bölüm ayrı olacak, birbirine karışmayacak:
 3. **Girişler (yüzdeli)** ayrı bir yerde: mal girişleri yüzdeye göre ayrılmış carilere yapılır. Örnek: BLACKROSE 20 (%20), BLACKROSE 15 (%15), BLACK ROSE 000.
 4. **Stok girişi** ayrı sekmede: bir elbisenin koduna giriş yapılır ("giriş yeri").
 
-Açık sorular (cevap bekleniyor):
-- Yüzde neyi ifade ediyor ve nasıl hesaplanıyor?
-- "Girişler" ile "Stok girişi" aynı ekran mı, iki ayrı ekran mı?
-- Satış fiyatı ürün kartında sabit mi, satışta mı yazılıyor?
-- Fabrika / mağaza ayrımı devam edecek mi?
-- Tutarların para birimi (TL / $)?
+Kullanıcının cevapları (25 Eylül 2026):
+- **Yüzde girişte düşülür.** BLACKROSE 20'ye 100 $'lık mal → cariye 80 $ yazılır. "000" = yüzdesiz (%0).
+- **Giriş ve stok girişi tek ekran.** "3394 geldi, %20'ye gir" denince stok artar ve tutar o carinin bakiyesinin üzerine eklenir.
+- **Satış fiyatlarını kullanıcı belirler** (ürün kartında yazılır, satışta değiştirilebilir).
+- **Fabrika ve mağaza stoğu ayrı.**
+- **Para birimi: dolar.**
+
+**4. sürüm (25 Eylül 2026) bu yapıyla kuruldu:** Satış · Giriş · Stok · Cariler · Geçmiş.
+- Satış: satış carisi seçilir, sepete kod/renk/yer/adet/fiyat eklenir → stok düşer, cariye (B) yazılır.
+- Giriş: giriş carisi seçilir (yüzdesi kartta), sepet → stok artar (yeni kod/renk otomatik açılır), cariye brüt × (1 − yüzde) (A) yazılır.
+- Stok: arama, fiyat/ad düzenleme, transfer (fabrika → mağaza), sayım, ürün listesi.
+- Cariler: tür (satış / giriş / gider), yüzde, tahsilat, ödeme, açılış bakiyesi.
+- Bakiye işareti Vegawin'deki gibi carinin tarafından: giriş → (A), satış → (B), tahsilat (B)'yi, ödeme (A)'yı azaltır. Kullanıcıya (A)/(B) yanında açıklama yazılmıyor, sadece harf.
+- Açık soru: Kullanıcı önce "(A) = biz alacaklıyız, (B) = biz borçluyuz" demişti; ama giriş carisinin bakiyesi (A) büyüyor (Vegawin'de BLACKROSE 20 de (A)). Kullanıcıya somut örnekle teyit ettirilecek.
 
 ## Ortak sözlük
 
