@@ -50,6 +50,11 @@ function iletisimBilgileriniDoldur() {
     el.href = "mailto:" + AYARLAR.eposta;
   });
   document.querySelectorAll("[data-adres]").forEach(function (el) { el.textContent = AYARLAR.adres; });
+  document.querySelectorAll("[data-resmi-ad]").forEach(function (el) { el.textContent = AYARLAR.resmiAd; });
+  document.querySelectorAll("[data-sirket-tel]").forEach(function (el) {
+    el.textContent = AYARLAR.sirketTelefon;
+    if (el.tagName === "A") el.href = "tel:" + AYARLAR.sirketTelefon.replace(/\s/g, "");
+  });
   document.querySelectorAll("[data-saatler]").forEach(function (el) { el.textContent = AYARLAR.calismaSaatleri; });
   document.querySelectorAll("[data-wa-numara]").forEach(function (el) { el.textContent = AYARLAR.whatsappGorunen || "+" + AYARLAR.whatsappNumara; });
   document.querySelectorAll("[data-yil]").forEach(function (el) { el.textContent = new Date().getFullYear(); });

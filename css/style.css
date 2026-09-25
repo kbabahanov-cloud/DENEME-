@@ -388,7 +388,9 @@ h1, h2, h3, h4 { margin: 0; font-weight: 400; }
 .site-footer li { margin-bottom: 8px; }
 .site-footer li a { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-soft); }
 .site-footer li a:hover { color: var(--ink); }
-.footer-bottom { font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-soft); }
+.footer-bottom { font-size: 12px; letter-spacing: 0.02em; color: var(--ink-soft); }
+.footer-bottom p { margin: 0 0 4px; }
+.footer-bottom a:hover { color: var(--ink); }
 
 /* Sabit WhatsApp butonu */
 .wa-float {
