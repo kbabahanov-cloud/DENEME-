@@ -44,17 +44,17 @@ Mantık: En uzun bekleme Meta doğrulaması (10 dk – 14 iş günü) → ilk o 
 Araştırma notu: Meta "Coexistence" ile WhatsApp Business uygulaması ve Cloud API aynı numarada birlikte çalışır; sohbet geçmişi ve kişiler korunur. Sınırlar: bağlı ek cihazlar (WhatsApp Web/masaüstü) bir kez ayrılır, yeniden bağlanabilir; saniyede 5 mesaj sınırı. Türkiye'de destek kurulum sırasında teyit edilecek.
 Meta doğrulaması web sitesinde şirket bilgisi (resmi unvan, adres) görmek istiyor → katalog sitesinin alt kısmına eklenecek.
 
-- [~] **Komut 1 — Meta işletme portföyü** — 25 Eylül: Vergi levhası alındı. **Şahıs işletmesi, ticaret unvanı yok → Meta'daki resmi işletme adı "HEMRA ARTYKOV" olmalı** (levhayla birebir). Vergi dairesi Beyazıt; faaliyet 464205 dış giyim toptan; işe başlama 08.01.2026. Adres: Mimar Kemalettin Mah. Koca Ragıppaşa Cad. No: 20 İç Kapı No: 501 Fatih/İstanbul. Şirket telefonu: +90 501 335 11 11. Bu bilgiler katalog sitesinin alt kısmına ve iletişim sayfasına eklendi. (TC kimlik no hiçbir yere yazılmadı.) Kalan: kullanıcı portföyü açıp bu bilgileri girecek.
+- [x] **Komut 1 — Meta işletme portföyü** — **25 Eylül: kullanıcı "portföy açıldı" dedi (ad: HEMRA ARTYKOV).** — 25 Eylül: Vergi levhası alındı. **Şahıs işletmesi, ticaret unvanı yok → Meta'daki resmi işletme adı "HEMRA ARTYKOV" olmalı** (levhayla birebir). Vergi dairesi Beyazıt; faaliyet 464205 dış giyim toptan; işe başlama 08.01.2026. Adres: Mimar Kemalettin Mah. Koca Ragıppaşa Cad. No: 20 İç Kapı No: 501 Fatih/İstanbul. Şirket telefonu: +90 501 335 11 11. Bu bilgiler katalog sitesinin alt kısmına ve iletişim sayfasına eklendi. (TC kimlik no hiçbir yere yazılmadı.) Portföy açıldı ve bilgiler girildi.
   - Önceki tanım: business.facebook.com'da portföy aç; resmi unvan, adres, telefonu Claude'a bildir (siteye eklenecek); vergi levhası + faaliyet belgesi / ticaret sicil gazetesi hazır olsun. Doğrulama site güncellenince başlatılacak.
 - [ ] Komut 2 — 10–20 WhatsApp sohbeti dışa aktarma ("Medya olmadan") → el kitabı.
 - [~] Komut 3 — Vegawin'den stok listesi. **Kısmen tamam (25 Eylül):** Kullanıcı Vegawin "Stok Listesi" PDF'ini gönderdi (617 satır → 613 benzersiz kart; "STOK" örnek kartı ve 3 tekrar çıkarıldı). Listede kod, barkod, kategori ve **1. özel kod = giriş carisi** var; **adet, fiyat ve renk yok.** Liste `aktarim/vegawin` belgesine bırakıldı (durum: bekliyor, 613 kart + 23 cari: 21 giriş carisi + TOPTAN + YENİ MAĞAZA GİDERLERİ). **Yükleme yapıldı (25 Eylül): 613 kart + 23 cari eklendi, atlanan 0 (veritabanından doğrulandı).**
   - Yüzdesi addan anlaşılan cariler onaylı (BLACKROSE 20/15, BLACK ROSE 000/25, WHITE YOU 15, YLD COLECTION 25). Diğer 15 giriş carisinin yüzdesi 0 ve "onaylanmadı" işaretli: ANİMA, BLACKROSE, CELAL, CELAL INDIRIM, CELAL KARAYAN, MURAT ELBISE, MY STYL, NEXX, NIWROS, TAMER, TEKLEME, TIRYESTE, W, WITH YOU, YLD COLECTION.
   - Eksik: Vegawin'den **stok adetleri ve satış fiyatları** raporu → Komut 1'den sonra istenecek (Komut 3b).
-- [ ] Komut 4 — Meta doğrulamasını başlatma (site güncellendikten sonra).
+- [~] Komut 4 — Meta doğrulamasını başlatma (25 Eylül'de verildi). Yol: İşletme ayarları → Güvenlik Merkezi → Doğrulamayı başlat; belge: vergi levhası. Buton görünmezse önce Komut 5 ile WhatsApp hesabı bağlanır, sonra doğrulamaya dönülür.
 - [ ] Komut 5 — WhatsApp platformu seçimi (Claude karşılaştırma sunar, kullanıcı onaylar).
 - [ ] Komut 6 — Cari bakiyeleri ve kalan türler. Stok listesinden anlaşıldı: WITH YOU, MY STYL, MURAT ELBISE, CELAL KARAYAN, TIRYESTE, CELAL INDIRIM = giriş carisi. Hâlâ bilinmeyen: MURAT, RASIT TM. Onaylanmamış yüzdeler (yukarıdaki 15 cari) sorulacak.
 
-**Sıradaki komut: Komut 1.**
+**Sıradaki komut: Komut 4.**
 
 ## Kapsam kararı (24 Eylül 2026)
 
