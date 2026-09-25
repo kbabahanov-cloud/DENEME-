@@ -46,10 +46,12 @@ Meta doğrulaması web sitesinde şirket bilgisi (resmi unvan, adres) görmek is
 
 - [ ] **Komut 1 — Meta işletme portföyü** (Aşama 0): business.facebook.com'da portföy aç; resmi unvan, adres, telefonu Claude'a bildir (siteye eklenecek); vergi levhası + faaliyet belgesi / ticaret sicil gazetesi hazır olsun. Doğrulama site güncellenince başlatılacak.
 - [ ] Komut 2 — 10–20 WhatsApp sohbeti dışa aktarma ("Medya olmadan") → el kitabı.
-- [ ] Komut 3 — Vegawin'den stok listesi (Excel veya ekran fotoğrafları) → 400 model yüklenir.
+- [~] Komut 3 — Vegawin'den stok listesi. **Kısmen tamam (25 Eylül):** Kullanıcı Vegawin "Stok Listesi" PDF'ini gönderdi (617 satır → 613 benzersiz kart; "STOK" örnek kartı ve 3 tekrar çıkarıldı). Listede kod, barkod, kategori ve **1. özel kod = giriş carisi** var; **adet, fiyat ve renk yok.** Liste `aktarim/vegawin` belgesine bırakıldı (durum: bekliyor, 613 kart + 23 cari: 21 giriş carisi + TOPTAN + YENİ MAĞAZA GİDERLERİ). Kullanıcı programda "Yükle"ye basınca kartlar açılır.
+  - Yüzdesi addan anlaşılan cariler onaylı (BLACKROSE 20/15, BLACK ROSE 000/25, WHITE YOU 15, YLD COLECTION 25). Diğer 15 giriş carisinin yüzdesi 0 ve "onaylanmadı" işaretli: ANİMA, BLACKROSE, CELAL, CELAL INDIRIM, CELAL KARAYAN, MURAT ELBISE, MY STYL, NEXX, NIWROS, TAMER, TEKLEME, TIRYESTE, W, WITH YOU, YLD COLECTION.
+  - Eksik: Vegawin'den **stok adetleri ve satış fiyatları** raporu (sonraki komut).
 - [ ] Komut 4 — Meta doğrulamasını başlatma (site güncellendikten sonra).
 - [ ] Komut 5 — WhatsApp platformu seçimi (Claude karşılaştırma sunar, kullanıcı onaylar).
-- [ ] Komut 6 — Cari türleri ve bakiyeleri (MURAT, WITH YOU, RASIT TM, MY STYL, MURAT ELBISE, CELAL KARAYAN, TIRYESTE, CELAL INDIRIM).
+- [ ] Komut 6 — Cari bakiyeleri ve kalan türler. Stok listesinden anlaşıldı: WITH YOU, MY STYL, MURAT ELBISE, CELAL KARAYAN, TIRYESTE, CELAL INDIRIM = giriş carisi. Hâlâ bilinmeyen: MURAT, RASIT TM. Onaylanmamış yüzdeler (yukarıdaki 15 cari) sorulacak.
 
 **Sıradaki komut: Komut 1.**
 
@@ -138,6 +140,16 @@ Kullanıcı stok programını bir kenara koydu, önce WhatsApp ajanına geçildi
 - Girişte birim fiyat ürünün satış fiyatından gelir. Yeni stok kartı girişle açılırsa girilen fiyat satış fiyatı olur. (Kullanıcı 100 $ satış fiyatı üzerinden girer; %20'lik caride 80 $ fabrikaya borç yazılır.)
 - "Ürün" adı "Stok kartı" oldu (Vegawin'deki gibi).
 - Yetenekler: `db` + `downloads`.
+
+## 7. sürüm (25 Eylül 2026)
+
+- Stok kodları Vegawin'deki gibi boşluklu olabilir ("3394 B 000"). Belge kimliği `kodId`: Türkçe harfler ASCII'ye, boşluk "_" (örn. `urunler/3394_B_000`). Ekranda ve `kod` alanında asıl kod durur.
+- "3394" yazınca tek eşleşen kart bulunur; birden fazla varsa program listeyi gösterip tam kodu ister.
+- Stok kartında `tedarikci` (giriş carisi adı) ve `kategori`. Girişte kod yazılınca (liste boşken) giriş carisi kendiliğinden seçilir; farklıysa uyarı verir.
+- Renk isteğe bağlı: girişte renk boşsa "Standart". Vegawin renk tutmuyor.
+- Carilerde `yuzdeOnay:false` ise girişte ve cari kartında uyarı. Cari kartından yüzde düzenlenebilir.
+- Vegawin'den toplu yükleme: Claude `aktarim/vegawin` belgesine {durum:"bekliyor", kaynak, cariler:[{ad,tur,yuzde,yuzdeOnay}], urunler:[[kod,kategori,tedarikci,barkod]]} yazar; programın üstünde "Yükle" düğmesi çıkar. Var olanlar değiştirilmez; yarıda kalırsa tekrar basınca devam eder; bitince durum "tamam".
+- Komutla işlem yaparken ürün belgesine `urunler/<kodId(kod)>` ile eriş (yoksa `_id` alanına bak).
 
 ## Claude'un sohbetten komutla işlem yapma yöntemi
 
