@@ -50,11 +50,11 @@ Meta doğrulaması web sitesinde şirket bilgisi (resmi unvan, adres) görmek is
 - [~] Komut 3 — Vegawin'den stok listesi. **Kısmen tamam (25 Eylül):** Kullanıcı Vegawin "Stok Listesi" PDF'ini gönderdi (617 satır → 613 benzersiz kart; "STOK" örnek kartı ve 3 tekrar çıkarıldı). Listede kod, barkod, kategori ve **1. özel kod = giriş carisi** var; **adet, fiyat ve renk yok.** Liste `aktarim/vegawin` belgesine bırakıldı (durum: bekliyor, 613 kart + 23 cari: 21 giriş carisi + TOPTAN + YENİ MAĞAZA GİDERLERİ). **Yükleme yapıldı (25 Eylül): 613 kart + 23 cari eklendi, atlanan 0 (veritabanından doğrulandı).**
   - Yüzdesi addan anlaşılan cariler onaylı (BLACKROSE 20/15, BLACK ROSE 000/25, WHITE YOU 15, YLD COLECTION 25). Diğer 15 giriş carisinin yüzdesi 0 ve "onaylanmadı" işaretli: ANİMA, BLACKROSE, CELAL, CELAL INDIRIM, CELAL KARAYAN, MURAT ELBISE, MY STYL, NEXX, NIWROS, TAMER, TEKLEME, TIRYESTE, W, WITH YOU, YLD COLECTION.
   - Eksik: Vegawin'den **stok adetleri ve satış fiyatları** raporu → Komut 1'den sonra istenecek (Komut 3b).
-- [~] Komut 4 — Meta doğrulamasını başlatma (25 Eylül'de verildi). Yol: İşletme ayarları → Güvenlik Merkezi → Doğrulamayı başlat; belge: vergi levhası. Buton görünmezse önce Komut 5 ile WhatsApp hesabı bağlanır, sonra doğrulamaya dönülür.
+- [~] Komut 4 — Meta doğrulamasını başlatma (25 Eylül'de verildi). Yol: İşletme ayarları → Güvenlik Merkezi → Doğrulamayı başlat; belge: vergi levhası. Buton görünmezse önce Komut 5 ile WhatsApp hesabı bağlanır, sonra doğrulamaya dönülür. **25 Eylül: buton YOK (Güvenlik Merkezi'nde sadece Domainler; reklam hesabı ve sayfa yok).** Çözüm → Komut 4a: developers.facebook.com'da portföye bağlı bir Meta uygulaması + WhatsApp ürünü oluştur (ücretsiz, Meta'nın test numarasıyla; asıl numaraya dokunulmaz). Bu hem doğrulama butonunu açar hem test aşamasında kullanılır. Not: doğrulanmamış işletme de Cloud API'yi sınırlı mesajla kullanabilir, yani doğrulama işi durdurmaz.
 - [ ] Komut 5 — WhatsApp platformu seçimi (Claude karşılaştırma sunar, kullanıcı onaylar).
 - [ ] Komut 6 — Cari bakiyeleri ve kalan türler. Stok listesinden anlaşıldı: WITH YOU, MY STYL, MURAT ELBISE, CELAL KARAYAN, TIRYESTE, CELAL INDIRIM = giriş carisi. Hâlâ bilinmeyen: MURAT, RASIT TM. Onaylanmamış yüzdeler (yukarıdaki 15 cari) sorulacak.
 
-**Sıradaki komut: Komut 4.**
+**Sıradaki komut: Komut 4a (Meta uygulaması + WhatsApp test numarası), sonra Komut 4.**
 
 ## Kapsam kararı (24 Eylül 2026)
 
