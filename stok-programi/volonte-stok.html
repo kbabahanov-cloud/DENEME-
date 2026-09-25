@@ -272,7 +272,7 @@
     <div id="cari-detay"></div>
     <div class="row">
       <label for="cari-ara">Cari ara<input id="cari-ara" placeholder="Cari adı"></label>
-      <label for="cari-filtre">Göster<select id="cari-filtre"><option value="hepsi">Hepsi</option><option value="satis">Satış carileri</option><option value="giris">Giriş carileri</option><option value="gider">Gider hesapları</option><option value="A">(A) bakiyeli olanlar</option><option value="B">(B) bakiyeli olanlar</option></select></label>
+      <label for="cari-filtre">Göster<select id="cari-filtre"><option value="hepsi">Hepsi</option><option value="satis">Satış carileri</option><option value="giris">Giriş carileri</option><option value="gider">Gider hesapları</option><option value="A">(A) Alacaklılar · biz ödeyeceğiz</option><option value="B">(B) Borçlular · bize ödeyecek</option></select></label>
     </div>
     <div class="list" id="cari-liste"></div>
   </section>
@@ -309,8 +309,8 @@
   const CTIP = {
     satis:    { ad: "Satış",           isaret: -1 },
     giris:    { ad: "Mal girişi",      isaret: +1 },
-    tahsilat: { ad: "Tahsilat",        isaret: +1, aciklama: "Cariden para aldık. (B) bakiyesi azalır." },
-    odeme:    { ad: "Ödeme",           isaret: -1, aciklama: "Cariye para ödedik. (A) bakiyesi azalır." },
+    tahsilat: { ad: "Tahsilat",        isaret: +1, aciklama: "Cariden para aldık. Bize olan borcu (B) azalır." },
+    odeme:    { ad: "Ödeme",           isaret: -1, aciklama: "Cariye para ödedik. Bizim ona borcumuz (A) azalır." },
     acilis:   { ad: "Açılış bakiyesi", isaret: 0,  aciklama: "Vegawin'deki bakiyeyi bir kez girin." }
   };
   const AZ_ESIK = 3;
@@ -330,7 +330,7 @@
   function bakiye(c) { return yuvarla((c.hareketler || []).reduce((t, x) => t + Number(x.etki || 0), 0)); }
   function bakiyeHtml(b) {
     if (Math.abs(b) < 0.005) return '<span class="bakiye">' + para(0) + "<small>Kapalı</small></span>";
-    return b > 0 ? '<span class="bakiye pos">' + para(b) + " (A)</span>" : '<span class="bakiye neg">' + para(-b) + " (B)</span>";
+    return b > 0 ? '<span class="bakiye pos">' + para(b) + " (A)<small>Alacaklı · biz ödeyeceğiz</small></span>" : '<span class="bakiye neg">' + para(-b) + " (B)<small>Borçlu · bize ödeyecek</small></span>";
   }
 
   let kuyruk = Promise.resolve();
@@ -657,7 +657,7 @@
           '<span class="sec">Para hareketi</span>' +
           '<div class="row"><label for="ch-tip">İşlem<select id="ch-tip">' + ["tahsilat", "odeme", "acilis"].map(k => '<option value="' + k + '"' + (k === secili ? " selected" : "") + ">" + CTIP[k].ad + "</option>").join("") + "</select></label>" +
           '<label for="ch-tutar">Tutar ($)<input id="ch-tutar" class="mono" type="number" inputmode="decimal" min="0" step="0.01" required></label></div>' +
-          '<label for="ch-yon" id="ch-yon-kutu" hidden>Bakiye harfi (Vegawin\'deki gibi)<select id="ch-yon"><option value="1">(A)</option><option value="-1">(B)</option></select></label>' +
+          '<label for="ch-yon" id="ch-yon-kutu" hidden>Bakiye harfi (Vegawin\'deki gibi)<select id="ch-yon"><option value="1">(A) Alacaklı · biz ödeyeceğiz</option><option value="-1">(B) Borçlu · bize ödeyecek</option></select></label>' +
           '<label for="ch-aciklama">Açıklama (isteğe bağlı)<input id="ch-aciklama"></label>' +
           '<p class="sub" id="ch-bilgi"></p><div id="ch-mesaj"></div>' +
           '<button class="btn" type="submit">Kaydet</button>' +

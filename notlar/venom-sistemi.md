@@ -60,9 +60,9 @@ Müşteriler Telegram'dan yazmadığı için müşteriyle konuşan ajan **WhatsA
 - [x] Karar: Eski stok programı yerine yeni, sade bir stok programı yazılıyor. Kullandıkça hatalar düzeltilip geliştirilecek.
 - [x] Stok programı 1. sürüm yayında: https://claude.ai/artifact/HE2rUVx7fiZpiAQnYm4Njh (sadece kullanıcıya açık)
   - Kaynak kod: `stok-programi/volonte-stok.html` (değişiklikten sonra aynı artifact adresine yeniden yayınlanır)
-  - Veritabanı: `urunler/<stok kodu>` (ad, fiyat, renkler → mağaza/fabrika adedi), `gunluk/<YYYY-AA-GG>` (o günün hareket listesi), `cariler/<otomatik id>` (ad, tur: musteri/tedarikci/gider, tel, ulke, hareketler[] → her hareketin `etki` değeri; bakiye = etkilerin toplamı, pozitif = (A) biz alacaklıyız, negatif = (B) biz borçluyuz), `ayarlar/genel` (paraBirimi, birim, azEsik)
+  - Veritabanı: `urunler/<stok kodu>` (ad, fiyat, renkler → mağaza/fabrika adedi), `gunluk/<YYYY-AA-GG>` (o günün hareket listesi), `cariler/<otomatik id>` (ad, tur: musteri/tedarikci/gider, tel, ulke, hareketler[] → her hareketin `etki` değeri; bakiye = etkilerin toplamı, pozitif = (A) cari alacaklı / biz ödeyeceğiz, negatif = (B) cari borçlu / bize ödeyecek), `ayarlar/genel` (paraBirimi, birim, azEsik)
 - [x] 2. sürüm (25 Eylül 2026): Vegawin ekranlarına göre **Cariler** sekmesi eklendi: satış, tahsilat, alış, ödeme, açılış bakiyesi. Stoktan satış girerken müşteri seçilirse tutar (fiyat × miktar) cariye otomatik borç yazılır.
-- [x] Kullanıcı kararı: **(A) = biz alacaklıyız, (B) = biz borçluyuz.** Program buna göre güncellendi.
+- [x] (A)/(B) kesinleşti (25 Eylül 2026, 4. sürümle): Vegawin gibi carinin tarafından. **(A) = cari alacaklı, biz ödeyeceğiz. (B) = cari borçlu, bize ödeyecek.** Programda harflerin yanında bu açıklama yazar. (Önceki "(A) = biz alacaklıyız" notu geçersiz; kullanıcı düzeltti.)
 - [x] Para birimi: dolar.
   - Claude verileri ArtifactData aracıyla okuyup düzeltebilir.
 - [ ] Kullanıcı ilk ürünleri girip denesin, geri bildirim versin.
@@ -91,7 +91,7 @@ Kullanıcının cevapları (25 Eylül 2026):
 - Stok: arama, fiyat/ad düzenleme, transfer (fabrika → mağaza), sayım, ürün listesi.
 - Cariler: tür (satış / giriş / gider), yüzde, tahsilat, ödeme, açılış bakiyesi.
 - Bakiye işareti Vegawin'deki gibi carinin tarafından: giriş → (A), satış → (B), tahsilat (B)'yi, ödeme (A)'yı azaltır. Kullanıcıya (A)/(B) yanında açıklama yazılmıyor, sadece harf.
-- Açık soru: Kullanıcı önce "(A) = biz alacaklıyız, (B) = biz borçluyuz" demişti; ama giriş carisinin bakiyesi (A) büyüyor (Vegawin'de BLACKROSE 20 de (A)). Kullanıcıya somut örnekle teyit ettirilecek.
+- Kullanıcı teyit etti: Vegawin'de de mal girişi (A)'yı, satış (B)'yi artırıyor. BLACKROSE 20'nin (A) bakiyesini VOLONTE ödeyecek.
 
 ## Ortak sözlük
 
