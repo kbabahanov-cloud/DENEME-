@@ -68,6 +68,23 @@ Müşteriler Telegram'dan yazmadığı için müşteriyle konuşan ajan **WhatsA
 - [ ] Kullanıcı ilk ürünleri girip denesin, geri bildirim versin.
 - [ ] Sonraki sürüm adayları: kasa / banka, fatura çıktısı, beden takibi, Excel'e aktarma, ürün fotoğrafı.
 
+## Kullanıcının tarif ettiği stok programı yapısı (25 Eylül 2026)
+
+"Kapalı kutu" bir sistem: gelen mal, satışlar, girişler. Banka ile işi yok.
+Her bölüm ayrı olacak, birbirine karışmayacak:
+
+1. **Cari kartlar** ayrı bir bölüm (sadece hesap kartları).
+2. **Satış** ayrı bir yerden yapılır: satış ekranı açılır, cari kodu seçilir (örneğin TOPTAN).
+3. **Girişler (yüzdeli)** ayrı bir yerde: mal girişleri yüzdeye göre ayrılmış carilere yapılır. Örnek: BLACKROSE 20 (%20), BLACKROSE 15 (%15), BLACK ROSE 000.
+4. **Stok girişi** ayrı sekmede: bir elbisenin koduna giriş yapılır ("giriş yeri").
+
+Açık sorular (cevap bekleniyor):
+- Yüzde neyi ifade ediyor ve nasıl hesaplanıyor?
+- "Girişler" ile "Stok girişi" aynı ekran mı, iki ayrı ekran mı?
+- Satış fiyatı ürün kartında sabit mi, satışta mı yazılıyor?
+- Fabrika / mağaza ayrımı devam edecek mi?
+- Tutarların para birimi (TL / $)?
+
 ## Ortak sözlük
 
 | Kelime | Anlamı |
